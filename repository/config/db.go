@@ -1,43 +1,23 @@
 package repository
 
 import (
-	"context"
-	"log"
-	"os"
+	"fmt"
 
-	"github.com/joho/godotenv"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
-// var client *mongo.Client
+var DB *gorm.DB
 
-func InitMongoDB() *mongo.Client {
+func InitDB() {
+	var err error
+	const MYSQL = "root:@tcp(127.0.0.1:3306)/db_tokoretail_2?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := MYSQL
 
-	err := godotenv.Load(".env") // inget lokasi file .env nya	// Kesalahan berfikir
-	if err != nil{
-		log.Fatalf("Error loading .env file: %v", err)
-	}
-
-
-	// retrieve MongoDB URI from environment variables (.env file)
-	mongoURI := os.Getenv("MONGODB_URI")
-	if mongoURI == ""{
-		log.Fatal("MONGODB_URI is not set in .env file")
-	}
-
-
-	// URI untuk menghubungkan dengan database MongoDB
-	clientOptions := options.Client().ApplyURI(mongoURI) 
-	client, err := mongo.Connect(context.Background(), clientOptions)
+	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
-		log.Fatal(err)
+		panic("can not connect to database nigga")
 	}
 
-	err = client.Ping(context.Background(), nil)
-	if err != nil{
-		log.Fatal(err)
-	}
-	log.Println("Connected to MongoDB!")
-	return client
+	fmt.Println("Connected to database nigger...")
 }
