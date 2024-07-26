@@ -3,23 +3,11 @@ package controller
 import (
 	"projek/toko-retail/model"
 	"projek/toko-retail/utils"
+	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/sirupsen/logrus"
 )
-
-func GetBarang(ctx *fiber.Ctx) ([]model.Barang, error)  {
-	// var barang model.Barang
-	// return barang.GetAll(config.Mysql.DB)
-	return nil, nil
-	
-}
-
-func GetBarangByID(ctx *fiber.Ctx) error {
-	return ctx.JSON(fiber.Map{
-		"Hello": "Test",
-	})
-}
 
 func CreateBarang(c *fiber.Ctx) error {
 	type AddBarangReq struct{
@@ -81,10 +69,133 @@ func CreateBarang(c *fiber.Ctx) error {
 		})
 }
 
-func IndexControllerRead(ctx *fiber.Ctx) error {
-	
-	return ctx.JSON(fiber.Map{
-		"Title" : "Hello World",
-	})
-	
+func GetBarang(c *fiber.Ctx) error {
+		dataBarang, err := utils.GetBarang()
+		if err != nil {
+				logrus.Error("Gagal dalam mengambil list Barang: ", err.Error())
+				return c.Status(fiber.StatusInternalServerError).JSON(
+						map[string]any{
+								"message":	"server error",
+						},
+				)
+		}
+		return c.Status(fiber.StatusOK).JSON(
+				map[string]any{
+						"data": dataBarang,
+				},
+		)
+}
+
+func GetBarangByID(c *fiber.Ctx) error {
+		barangID, err := strconv.Atoi(c.Params("id"))
+		if err != nil {
+				return c.Status(fiber.StatusBadRequest).JSON(
+						map[string]any{
+								"message": "Invalid ID",
+						},
+				)
+		}
+
+		dataBarang, err := utils.GetBarangByID(uint64(barangID))
+		if err != nil {
+				if err.Error() == "record not found" {
+						return c.Status(fiber.StatusNotFound).JSON(
+								map[string]any{
+										"message" : "ID not found",	
+								},
+						)
+				}
+		}
+
+		return c.Status(fiber.StatusOK).JSON(
+				map[string]any{
+						"data": dataBarang,
+				},
+		)
+}
+
+func UpdateBarang(c *fiber.Ctx) error {
+		barangID, err := strconv.Atoi(c.Params("id"))
+		if err != nil {
+				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+						"message": "Invalid ID",	
+				})
+		}
+
+		var updatedBarang model.Barang
+		if err := c.BodyParser(&updatedBarang); err != nil {
+				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+						"message": "Invalid request body",
+				})
+		}
+		
+		dataBarang, err := utils.UpdateBarang(uint(barangID), updatedBarang)
+		if err != nil {
+				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+						"message" : "failed to update item",
+				})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(
+				map[string]any{
+						"id": dataBarang.ID,
+				},
+		)
+}
+
+func DeleteBarang(c *fiber.Ctx) error {
+		barangID, err := strconv.Atoi(c.Params("id"))
+		if err != nil {
+				return c.Status(fiber.StatusBadRequest).JSON(
+						map[string]any{
+								"message": "Invalid ID",
+						},
+				)
+		}
+
+		err = utils.DeleteBarang(uint64(barangID))
+		if err != nil {
+				if err.Error() == "record not found" {
+						return c.Status(fiber.StatusNotFound).JSON(
+								map[string]any{
+										"message" : "ID not found",
+								},
+						)
+				}
+		}
+
+		return c.Status(fiber.StatusOK).JSON(map[string]any{
+				"message": "Deleted Successfully",
+		},
+	)
+}
+
+func UpdateStok(c *fiber.Ctx) error {
+		barangID, err := strconv.Atoi(c.Params("id"))
+		if err != nil {
+				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+						"message": "Invalid ID",
+				})
+		}
+
+		var updatedBarang model.Barang
+		if err := c.BodyParser(&updatedBarang); err != nil {
+				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+						"message": "Invalid request body",
+				})
+		}
+
+		dataBarang, err := utils.UpdateBarang(uint(barangID), updatedBarang)
+		if err != nil {
+				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+						"message": "Failed to update item",
+				})
+		}
+
+		return c.Status(fiber.StatusOK).JSON(
+				map[string]any{
+						"id":			dataBarang.ID,
+						"kode_barang":	dataBarang.KodeBarang,
+				},
+		)
 }

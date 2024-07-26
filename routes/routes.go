@@ -13,25 +13,25 @@ func RouteSetup(r *fiber.App) {
 	retailGroup := r.Group("/toko")
 	
 	
-	retailGroup.Get("/",)
+	// retailGroup.Get("/",)
 	// Define routes barang
-	retailGroup.Get("/barang",)
+	retailGroup.Get("/barang", controller.GetBarang)
 	retailGroup.Get("/barang/:id", controller.GetBarangByID)
-	retailGroup.Post("/barang", )
-	retailGroup.Put("/barang/:id", )
-	retailGroup.Put("/barang/stok/:id", )
-	retailGroup.Delete("/barang/:id", )
+	retailGroup.Post("/barang", controller.CreateBarang)
+	retailGroup.Put("/barang/:id", controller.UpdateBarang)
+	// retailGroup.Put("/barang/stok/:id", controller.UpdateStok)
+	retailGroup.Delete("/barang/:id", controller.DeleteBarang)
 
 	// Define routes penjualan
-	retailGroup.Get("/penjualan", )
-	retailGroup.Get("/penjualan/:id", )
-	retailGroup.Post("/penjualan", )
+	retailGroup.Get("/penjualan", controller.GetPenjualan)
+	retailGroup.Get("/penjualan/:id", controller.GetPenjualanByID)
+	retailGroup.Post("/penjualan", controller.InsertPenjualanData)
 	
 	// Define routes kode diskon
-	retailGroup.Get("/kode-diskon", )
-	retailGroup.Get("/kode-diskon/:id", )
-	retailGroup.Get("/kode-diskon/get-by-code", )
-	retailGroup.Post("/kode-diskon", )
-	retailGroup.Put("/kode-diskon/:id", )
-	retailGroup.Delete("kode-diskon/:id", )
+	retailGroup.Get("/kode-diskon", controller.GetKodeDiskon)
+	retailGroup.Get("/kode-diskon/:id", controller.GetDiskonByID)
+	retailGroup.Get("/kode-diskon/get-by-code", controller.GetByCode)
+	retailGroup.Post("/kode-diskon", controller.CreateKodeDiskon)
+	retailGroup.Put("/kode-diskon/:id", controller.UpdateCode)
+	retailGroup.Delete("kode-diskon/:id", controller.DeleteKode)
 }

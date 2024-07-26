@@ -2,55 +2,58 @@ package utils
 
 import (
 	"projek/toko-retail/model"
-	repository "projek/toko-retail/repository/config"
+	config "projek/toko-retail/repository/config"
 	"time"
 )
 
-// function untuk input kode diskon
 func CreateKodeDiskon(data model.Diskon) (model.Diskon, error) {
-		data.CreatedAt = time.Now()
-		data.UpdatedAt = time.Now()
-		err := data.Create(repository.Mysql.DB)
+	data.CreatedAt = time.Now()
+	data.UpdatedAt = time.Now()
+	err := data.Create(config.Mysql.DB)
 
-		return data, err
+	return data, err
 }
 
-// function untuk menampilkan data kode diskon
 func GetDiskon() ([]model.Diskon, error) {
-		var Diskon model.Diskon
-		return Diskon.GetAll(repository.Mysql.DB)
+	var Diskon model.Diskon
+	return Diskon.GetAll(config.Mysql.DB)
 }
 
-// function untuk menampilkan data kode diskon berdasarkan ID-nya
+func GetDiskonByCode(s string) (model.Diskon, error) {
+	diskon := model.Diskon{
+		KodeDiskon: s,
+	}
+
+	return diskon.GetByCode(config.Mysql.DB)
+}
+
 func GetDiskonByID(id uint) (model.Diskon, error) {
-		Diskon := model.Diskon{
-				ID: id,
-		}
-		return Diskon.GetByID(repository.Mysql.DB)
+	Diskon := model.Diskon{
+		ID: id,
+	}
+	return Diskon.GetByID(config.Mysql.DB)
 }
 
-// function untuk edit/update data kode diskon
-func UpdateDiskon(id uint, updateDiskon model.Diskon) (model.Diskon, error) {
-		existingDiskon := model.Diskon{ID: id}
-		if err := repository.Mysql.DB.First(&existingDiskon).Error; err != nil {
-				return model.Diskon{}, err
-		}
+func UpdateDiskon(id uint, updatedDiskon model.Diskon) (model.Diskon, error) {
+	existingDiskon := model.Diskon{ID: id}
+	if err := config.Mysql.DB.First(&existingDiskon).Error; err != nil {
+		return model.Diskon{}, err
+	}
 
-		existingDiskon.Amount 		= updateDiskon.Amount
-		existingDiskon.Type 		= updateDiskon.Type
-		existingDiskon.UpdatedAt	= time.Now()
+	existingDiskon.Amount = updatedDiskon.Amount
+	existingDiskon.Type = updatedDiskon.Type
+	existingDiskon.UpdatedAt = time.Now()
 
-		if err := repository.Mysql.DB.Save(&existingDiskon).Error; err != nil {
-				return model.Diskon{}, err
-		}
+	if err := config.Mysql.DB.Save(&existingDiskon).Error; err != nil {
+		return model.Diskon{}, err
+	}
 
-		return existingDiskon, nil
+	return existingDiskon, nil
 }
 
-// function untuk menghapus kode diskon
-func DeleteDiskon(id uint64) error {
-		Kode := model.Diskon{
-				ID: uint(id),
-		}
-		return Kode.Delete(repository.Mysql.DB)
+func DeleteKode(id uint64) error {
+	Kode := model.Diskon{
+		ID: uint(id),
+	}
+	return Kode.Delete(config.Mysql.DB)
 }

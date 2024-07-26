@@ -25,6 +25,8 @@ func OpenDB() (*gorm.DB, error) {
 		os.Getenv("DB_PORT"),
 		os.Getenv("DB_NAME"))
 
+		fmt.Println("Connection String:", connString)
+
 	mysqlConn, err := gorm.Open(mysql.Open(connString), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
