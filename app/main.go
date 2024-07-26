@@ -13,7 +13,7 @@ import (
 
 func main() {
 	// initial database
-	repository.InitDB()
+	repository.OpenDB()
 
 	// buat fiber app baru
 	app := fiber.New()
