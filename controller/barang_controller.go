@@ -15,7 +15,7 @@ func GetBarang(ctx *fiber.Ctx) ([]model.Barang, error)  {
 
 func GetBarangByID(ctx *fiber.Ctx) error {
 	return ctx.JSON(fiber.Map{
-		"Nigger": "Nig & Ger",
+		"Hello": "Test",
 	})
 }
 
