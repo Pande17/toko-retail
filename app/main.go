@@ -6,7 +6,7 @@ import (
 	// "projek/toko-retail/repository/config"
 
 	repository "projek/toko-retail/repository/config"
-	"projek/toko-retail/services"
+	"projek/toko-retail/routes"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -19,7 +19,7 @@ func main() {
 	app := fiber.New()
 
 	// initial route
-	services.RouteSetup(app)
+	routes.RouteSetup(app)
 
 	// fiber jalan di http://localhost:3000
 	log.Fatal(app.Listen(":3000"))
