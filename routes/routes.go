@@ -12,14 +12,15 @@ func RouteSetup(r *fiber.App) {
 	// Define routes
 	retailGroup := r.Group("/toko")
 	
-	
+	// Define main routes
 	// retailGroup.Get("/",)
+
 	// Define routes barang
 	retailGroup.Get("/barang", controller.GetBarang)
 	retailGroup.Get("/barang/:id", controller.GetBarangByID)
 	retailGroup.Post("/barang", controller.CreateBarang)
 	retailGroup.Put("/barang/:id", controller.UpdateBarang)
-	// retailGroup.Put("/barang/stok/:id", controller.UpdateStok)
+	retailGroup.Put("/barang/stok/:id", controller.UpdateStok)
 	retailGroup.Delete("/barang/:id", controller.DeleteBarang)
 
 	// Define routes penjualan

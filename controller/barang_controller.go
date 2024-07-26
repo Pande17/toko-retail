@@ -192,10 +192,29 @@ func UpdateStok(c *fiber.Ctx) error {
 				})
 		}
 
-		return c.Status(fiber.StatusOK).JSON(
-				map[string]any{
-						"id":			dataBarang.ID,
-						"kode_barang":	dataBarang.KodeBarang,
-				},
-		)
+		var histori model.HistoriASK
+    if err := c.BodyParser(&histori); err != nil {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+            "message": "Invalid history data",
+        })
+    }
+
+    // Create the history record
+    newHistori, err := utils.CreateHistoriBarang(&model.Details{ID: uint64(barangID)}, histori.Keterangan, histori.Amount, histori.Status)
+    if err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+            "message": "Failed to create history record",
+        })
+    }
+
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+        "id":          dataBarang.ID,
+        "kode_barang": dataBarang.KodeBarang,
+        "stok":        dataBarang.Stok,
+        "histori_stok": map[string]interface{}{
+            "amount":     newHistori.Amount,
+            "status":     newHistori.Status,
+            "keterangan": newHistori.Keterangan,
+        },
+    })
 }

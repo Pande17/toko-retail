@@ -7,14 +7,16 @@ import (
 
 // function untuk membuat histori barang
 func CreateHistoriBarang(p *model.Details, keterangan string, amount int, status string) (model.Histori, error) {
-		Histori := model.Histori{
-			ID_barang: uint(p.ID),
-			Amount: amount,
-			Status: status,
-			Keterangan: keterangan,
-		}
+    histori := model.Histori{
+        ID_barang: uint(p.ID),
+        Amount: amount,
+        Status: status,
+        Keterangan: keterangan,
+    }
 
-		return Histori, Histori.Create(repository.Mysql.DB)
+    // Save the history record to the database
+    err := histori.Create(repository.Mysql.DB)
+    return histori, err
 }
 
 // function untuk membuat histori penjualan
