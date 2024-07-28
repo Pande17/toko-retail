@@ -171,46 +171,64 @@ func DeleteBarang(c *fiber.Ctx) error {
 }
 
 func UpdateStok(c *fiber.Ctx) error {
-		barangID, err := strconv.Atoi(c.Params("id"))
-		if err != nil {
-				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-						"message": "Invalid ID",
-				})
-		}
-
-		var updatedBarang model.Barang
-		if err := c.BodyParser(&updatedBarang); err != nil {
-				return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-						"message": "Invalid request body",
-				})
-		}
-
-		dataBarang, err := utils.UpdateBarang(uint(barangID), updatedBarang)
-		if err != nil {
-				return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-						"message": "Failed to update item",
-				})
-		}
-
-		var histori model.HistoriASK
-    if err := c.BodyParser(&histori); err != nil {
+    barangID, err := strconv.Atoi(c.Params("id"))
+    if err != nil {
         return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-            "message": "Invalid history data",
+            "message": "Invalid ID",
+        })
+    }
+
+    var requestData struct {
+        Stok        uint           `json:"stok"`
+        HistoriStok model.Histori  `json:"histori_stok"`
+    }
+
+    if err := c.BodyParser(&requestData); err != nil {
+        return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+            "message": "Invalid request body",
+        })
+    }
+
+    // Retrieve the existing Barang to update it
+    existingBarang, err := utils.GetBarangByID(uint64(barangID))
+    if err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+            "message": "Failed to retrieve item",
+        })
+    }
+
+    // Update only the fields provided in the request
+    existingBarang.Stok = requestData.Stok
+
+    // Update the Barang in the database
+    updatedBarang := model.Barang{
+        ID: existingBarang.ID,
+        KodeBarang: existingBarang.KodeBarang,
+        Nama: existingBarang.Nama,
+        HargaPokok: existingBarang.HargaPokok,
+        HargaJual: existingBarang.HargaJual,
+        TipeBarang: existingBarang.TipeBarang,
+        Stok: existingBarang.Stok,
+    }
+    updatedBarang, err = utils.UpdateBarang(uint(existingBarang.ID), updatedBarang)
+    if err != nil {
+        return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+            "message": "Failed to update item",
         })
     }
 
     // Create the history record
-    newHistori, err := utils.CreateHistoriBarang(&model.Details{ID: uint64(barangID)}, histori.Keterangan, histori.Amount, histori.Status)
+    newHistori, err := utils.CreateHistoriBarang(&existingBarang, requestData.HistoriStok.Keterangan, requestData.HistoriStok.Amount, requestData.HistoriStok.Status)
     if err != nil {
         return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
             "message": "Failed to create history record",
         })
     }
 
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-        "id":          dataBarang.ID,
-        "kode_barang": dataBarang.KodeBarang,
-        "stok":        dataBarang.Stok,
+    return c.Status(fiber.StatusOK).JSON(fiber.Map{
+        "id":          updatedBarang.ID,
+        "kode_barang": updatedBarang.KodeBarang,
+        "stok":        updatedBarang.Stok,
         "histori_stok": map[string]interface{}{
             "amount":     newHistori.Amount,
             "status":     newHistori.Status,
