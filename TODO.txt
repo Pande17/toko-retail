@@ -2,6 +2,6 @@ yang kurang :
 
 1. UI (website) [80%]
 2. Penjualan
-3. Historis (row nya udah masuk, datanya belum) [DONE]
+3. Historis [DONE]
 4. Update stok
 5. Get-By-Code
