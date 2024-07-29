@@ -3,5 +3,5 @@ yang kurang :
 1. UI (website) [80%]
 2. Penjualan
 3. Historis [DONE]
-4. Update stok
+4. Update stok [DONE]
 5. Get-By-Code
