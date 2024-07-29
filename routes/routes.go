@@ -6,11 +6,12 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+
 func RouteSetup(r *fiber.App) {
 	// r itu untuk 'route' 
 
 	// Define routes
-	retailGroup := r.Group("/toko")
+	retailGroup := r.Group("")
 	
 	// Define main routes
 	// retailGroup.Get("/",)
@@ -35,4 +36,10 @@ func RouteSetup(r *fiber.App) {
 	retailGroup.Post("/kode-diskon", controller.CreateKodeDiskon)
 	retailGroup.Put("/kode-diskon/:id", controller.UpdateCode)
 	retailGroup.Delete("kode-diskon/:id", controller.DeleteKode)
+
+	retailGroup.Get("/test", func(c *fiber.Ctx) error {
+		return c.Render("test", fiber.Map{
+			"title": "Test Page",
+		})
+	})
 }

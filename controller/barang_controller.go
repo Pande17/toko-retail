@@ -79,11 +79,10 @@ func GetBarang(c *fiber.Ctx) error {
 						},
 				)
 		}
-		return c.Status(fiber.StatusOK).JSON(
-				map[string]any{
-						"data": dataBarang,
-				},
-		)
+		return c.Render("barang/list", fiber.Map{
+			    "data": dataBarang,    
+                "title": "Daftar Barang",
+		})
 }
 
 func GetBarangByID(c *fiber.Ctx) error {
