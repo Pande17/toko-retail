@@ -33,6 +33,7 @@ func main() {
 		Views: engine,
 	})
 	app.Static("/", "./template/home")
+	app.Static("/src", "./src")
 
 	// initial route
 	routes.RouteSetup(app)

@@ -1,4 +1,5 @@
+/* Efek fade-out buat alert penjualan */
 .fade-out {
-    opacity: 0;
-    transition: opacity 1s ease-out;
+  opacity: 0;
+  transition: opacity 1s ease-out;
 }

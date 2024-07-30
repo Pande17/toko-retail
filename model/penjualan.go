@@ -22,6 +22,7 @@ type CreateP struct {
 	Subtotal      float64         `json:"subtotal"`
 	Kode_diskon   string          `json:"kode_diskon"`
 	Diskon        float64         `json:"diskon"`
+	Total        float64 `json:"total"`
 	Created_by    string          `json:"created_by"`
 	ItemPenjualan []ItemPenjualan `json:"item_penjualan"`
 }
