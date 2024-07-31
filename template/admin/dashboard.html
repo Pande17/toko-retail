@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Toko Retail</title>
+    <!-- link untuk icon cart -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+    />
+    <!-- Icon Website -->
+    <link rel="icon" href="/src/img/icon.png" />
+    <!-- Link Bootstrap -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <!-- link bootstrap utama -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <!-- link css -->
+    <link rel="stylesheet" href="../../src/css/style.css" />
+    <style>
+      body,
+      html {
+        /* background-color: rgb(234, 255, 232); */
+        height: 100%;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .main-content {
+        flex: 1;
+      }
+
+      .svg-container {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .btn-success i {
+        margin-right: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Awal Navbar -->
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-success shadow-sm fixed-top"
+    >
+      <div class="container-fluid">
+        <a class="navbar-brand text-light fs-4 ms-5" href="/#top">IndoShop</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto me-4">
+            <li class="nav-item">
+              <a class="nav-link fs-5 text-light" href="/admin/dashboard#top"
+                >Barang</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-5 text-light" href="/admin/penjualan"
+                >Penjualan</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link fs-5 text-light" href="/admin/kode-diskon"
+                >Kode Diskon</a
+              >
+            </li>
+            <li>
+              <form class="container-fluid justify-end">
+                <a href="/barang" class="btn btn-success fs-5 me-5">
+                  <i class="bi bi-cart"></i> Buy
+                </a>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Akhir Navbar -->
+
+    <!-- Awal List Barang  -->
+    <div class="container mt-5 pt-5">
+      <h1 class="mb-5 text-center">Daftar Barang</h1>
+      <div class="d-flex justify-content-end mb-3">
+        <a href="" class="btn btn-success fs-5">
+          <i class="bi bi-plus"></i> Tambah Barang
+        </a>
+      </div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nama</th>
+            <th>Harga</th>
+            <th>Tipe</th>
+            <th>Stok</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{range .data}}
+          <tr>
+            <td>{{.ID}}</td>
+            <td>{{.Nama}}</td>
+            <td>{{.HargaJual}}</td>
+            <td>{{.TipeBarang}}</td>
+            <td>{{.Stok}}</td>
+            <td>
+              <form
+                class="container-fluid justify-end"
+                method="post"
+                action="/penjualan"
+              >
+                <input type="hidden" name="ID" value="{{.ID}}" />
+                <input type="hidden" name="Nama" value="{{.Nama}}" />
+                <input type="hidden" name="HargaJual" value="{{.HargaJual}}" />
+                <input
+                  type="hidden"
+                  name="TipeBarang"
+                  value="{{.TipeBarang}}"
+                />
+                <input type="hidden" name="Stok" value="{{.Stok}}" />
+                <button
+                  type="button"
+                  class="btn btn-success me-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"
+                >
+                  <i class="bi bi-cart"></i> Buy
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-warning edit-button me-2"
+                  data-id="{{.ID}}"
+                  data-name="{{.Nama}}"
+                  data-price="{{.HargaJual}}"
+                  data-stock="{{.Stok}}"
+                  data-img="https://picsum.photos/200/150?random={{.ID}}"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                >
+                  <i class="bi bi-pencil-square"></i> Edit
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger delete-button me-2"
+                  data-id="{{.ID}}"
+                  data-name="{{.Nama}}"
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteModal"
+                >
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary detail-button me-2"
+                  data-id="{{.ID}}"
+                  data-kode-barang="{{.KodeBarang}}"
+                  data-name="{{.Nama}}"
+                  data-harga-pokok="{{.HargaPokok}}"
+                  data-harga-jual="{{.HargaJual}}"
+                  data-tipe-barang="{{.TipeBarang}}"
+                  data-stock="{{.Stok}}"
+                  data-created-by="{{.CreatedBy}}"
+                  data-bs-toggle="modal"
+                  data-bs-target="#detailModal"
+                >
+                  <i class="bi bi-search"></i> Detail
+                </button>
+              </form>
+            </td>
+          </tr>
+          {{end}}
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Akhir List Barang -->
+
+    <!-- Awal Modal "Buy" -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Beli</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="jumlah-input" class="col-form-label"
+                >Masukkan Jumlah Barang Yang Ingin Dibeli:</label
+              >
+              <input
+                type="number"
+                class="form-control"
+                id="jumlah-input"
+                name="jumlah"
+                min="0"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-sm btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Batal
+            </button>
+            <button type="submit" class="btn btn-sm btn-success">Beli</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Akhir Modal "Buy" -->
+
+    <!-- Awal Modal "Edit" -->
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      aria-labelledby="editModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="editModalLabel">Edit Barang</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form id="editForm" method="post" action="/editbarang">
+              <input type="hidden" id="edit-id" name="ID" />
+              <div class="mb-3">
+                <label for="edit-name" class="form-label">Nama</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-name"
+                  name="Nama"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="edit-price" class="form-label">Harga</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-price"
+                  name="HargaJual"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="edit-stock" class="form-label">Stok</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-stock"
+                  name="Stok"
+                />
+              </div>
+              <div class="mb-3">
+                <label for="edit-stock" class="form-label">Created By</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="edit-stock"
+                  name="CreatedBy"
+                />
+              </div>
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Batal
+              </button>
+              <button type="submit" class="btn btn-primary">Simpan</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Akhir Modal "Edit" -->
+
+    <!-- Awal Modal "Delete" -->
+    <div
+      class="modal fade"
+      id="deleteModal"
+      tabindex="-1"
+      aria-labelledby="deleteModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="deleteModalLabel">Hapus Barang</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <form id="deleteForm" method="post">
+            <div class="modal-body">
+              <p>Apakah Anda yakin ingin menghapus barang ini?</p>
+              <h5 class="card-title" id="delete-modal-name"></h5>
+              <input type="hidden" id="delete-modal-id" name="ID" />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Batal
+              </button>
+              <button type="submit" class="btn btn-danger">Hapus</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Akhir Modal "Delete" -->
+
+    <!-- Awal Modal "Detail" -->
+    <div
+      class="modal fade"
+      id="detailModal"
+      tabindex="-1"
+      aria-labelledby="detailModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="detailModalLabel">
+              Detail Barang
+            </h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="detail-id" class="form-label">ID</label>
+              <input type="text" class="form-control" id="detail-id" readonly />
+            </div>
+            <div class="mb-3">
+              <label for="detail-kode-barang" class="form-label"
+                >Kode Barang</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="detail-kode-barang"
+                readonly
+              />
+            </div>
+            <div class="mb-3">
+              <label for="detail-nama" class="form-label">Nama</label>
+              <input
+                type="text"
+                class="form-control"
+                id="detail-nama"
+                readonly
+              />
+            </div>
+            <div class="mb-3">
+              <label for="detail-harga-pokok" class="form-label"
+                >Harga Pokok</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="detail-harga-pokok"
+                readonly
+              />
+            </div>
+            <div class="mb-3">
+              <label for="detail-harga-jual" class="form-label"
+                >Harga Jual</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="detail-harga-jual"
+                readonly
+              />
+            </div>
+            <div class="mb-3">
+              <label for="detail-tipe-barang" class="form-label"
+                >Tipe Barang</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="detail-tipe-barang"
+                readonly
+              />
+            </div>
+            <div class="mb-3">
+              <label for="detail-stok" class="form-label">Stok</label>
+              <input
+                type="text"
+                class="form-control"
+                id="detail-stok"
+                readonly
+              />
+            </div>
+            <div class="mb-3">
+              <label for="detail-created-by" class="form-label"
+                >Created By</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="detail-created-by"
+                readonly
+              />
+            </div>
+            <!-- <div class="mb-3">
+              <label for="detail-amount" class="form-label">Amount</label>
+              <input
+                type="text"
+                class="form-control"
+                id="detail-amount"
+                readonly
+              />
+            </div>
+            <div class="mb-3">
+              <label for="detail-status" class="form-label">Status</label>
+              <input
+                type="text"
+                class="form-control"
+                id="detail-status"
+                readonly
+              />
+            </div>
+            <div class="mb-3">
+              <label for="detail-keterangan" class="form-label"
+                >Keterangan</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="detail-keterangan"
+                readonly
+              />
+            </div>
+            <div class="mb-3">
+              <label for="detail-created-at" class="form-label"
+                >Created At</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="detail-created-at"
+                readonly
+              />
+            </div>
+            <div class="mb-3">
+              <label for="detail-updated-at" class="form-label"
+                >Updated At</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="detail-updated-at"
+                readonly
+              />
+            </div>
+            <div class="mb-3">
+              <label for="detail-deleted-at" class="form-label"
+                >Deleted At</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="detail-deleted-at"
+                readonly
+              />
+            </div> -->
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Akhir Modal "Detail" -->
+
+    <!-- Awal Footer -->
+    <footer class="bg-success text-white text-center pt-3 pb-1 mt-5">
+      <p class="footer-text">
+        Created with
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="red"
+          class="bi bi-suit-heart-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"
+          />
+        </svg>
+        by
+        <a href="https://www.instagram.com/_bgspw/" class="text-white fw-bold"
+          >Bagus Perwira</a
+        >
+        and
+        <a href="https://www.instagram.com/pandefw/" class="text-white fw-bold"
+          >Pande Feri</a
+        >
+      </p>
+    </footer>
+    <!-- Akhir Footer -->
+
+    <!-- Script bottstrap -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- script untuk modal "Delete" -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const deleteButtons = document.querySelectorAll(".delete-button");
+        const deleteModal = document.getElementById("deleteModal");
+        const deleteForm = document.getElementById("deleteForm");
+        const deleteModalName = document.getElementById("delete-modal-name");
+        const deleteModalId = document.getElementById("delete-modal-id");
+
+        deleteButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const itemId = button.getAttribute("data-id");
+            const itemName = button.getAttribute("data-name");
+
+            deleteModalName.textContent = itemName;
+            deleteModalId.value = itemId;
+            deleteForm.action = `/barang/${itemId}`;
+            deleteForm.method = "POST"; // HTML forms do not support DELETE method directly
+            const hiddenMethodInput = document.createElement("input");
+            hiddenMethodInput.type = "hidden";
+            hiddenMethodInput.name = "_method";
+            hiddenMethodInput.value = "DELETE";
+            deleteForm.appendChild(hiddenMethodInput);
+          });
+        });
+      });
+    </script>
+
+    <!-- Script untuk modal "Detail" -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const detailButtons = document.querySelectorAll(".detail-button");
+        const detailModal = document.getElementById("detailModal");
+
+        detailButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const id = button.getAttribute("data-id");
+            const kodeBarang = button.getAttribute("data-kode-barang");
+            const nama = button.getAttribute("data-name");
+            const hargaPokok = button.getAttribute("data-harga-pokok");
+            const hargaJual = button.getAttribute("data-harga-jual");
+            const tipeBarang = button.getAttribute("data-tipe-barang");
+            const stok = button.getAttribute("data-stock");
+            const createdBy = button.getAttribute("data-created-by");
+            // const amount = button.getAttribute("data-amount");
+            // const status = button.getAttribute("data-status");
+            // const keterangan = button.getAttribute("data-keterangan");
+            // const createdAt = button.getAttribute("data-createdAt");
+            // const updatedAt = button.getAttribute("data-updatedAt");
+            // const deletedAt = button.getAttribute("data-deletedAt");
+
+            document.getElementById("detail-id").value = id;
+            document.getElementById("detail-kode-barang").value = kodeBarang;
+            document.getElementById("detail-nama").value = nama;
+            document.getElementById("detail-harga-pokok").value = hargaPokok;
+            document.getElementById("detail-harga-jual").value = hargaJual;
+            document.getElementById("detail-tipe-barang").value = tipeBarang;
+            document.getElementById("detail-stok").value = stok;
+            document.getElementById("detail-created-by").value = createdBy;
+            // document.getElementById("detail-amount").value = amount;
+            // document.getElementById("detail-status").value = status;
+            // document.getElementById("detail-keterangan").value = keterangan;
+            // document.getElementById("detail-created-at").value = createdAt;
+            // document.getElementById("detail-updated-at").value = updatedAt;
+            // document.getElementById("detail-deleted-at").value = deletedAt;
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

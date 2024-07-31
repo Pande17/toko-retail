@@ -1,0 +1,8 @@
+data-amount="{{.Amount}}"
+                  data-status="{{.Status}}"
+                  data-keterangan="{{.Keterangan}}"
+                  data-created-at="{{.CreatedAt}}"
+                  data-updated-at="{{.UpdatedAt}}"
+                  data-deleted-at="{{.DeletedAt}}"
+
+ADA DI LINE 184

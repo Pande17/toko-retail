@@ -85,6 +85,22 @@ func GetBarang(c *fiber.Ctx) error {
 		})
 }
 
+func AdminGetBarang(c *fiber.Ctx) error {
+	dataBarang, err := utils.GetBarang()
+	if err != nil {
+			logrus.Error("Gagal dalam mengambil list Barang: ", err.Error())
+			return c.Status(fiber.StatusInternalServerError).JSON(
+					map[string]any{
+							"message":	"server error",
+					},
+			)
+	}
+	return c.Render("admin/dashboard", fiber.Map{
+			"data": dataBarang,    
+			"title": "Daftar Barang",
+	})
+}
+
 func GetBarangByID(c *fiber.Ctx) error {
 		barangID, err := strconv.Atoi(c.Params("id"))
 		if err != nil {

@@ -58,11 +58,10 @@ func GetKodeDiskon(c *fiber.Ctx) error {
 			},
 		)
 	}
-	return c.Status(fiber.StatusOK).JSON(
-		map[string]any{
-			"data": dataDiskon,
-		},
-	)
+	return c.Render("admin/kode-diskon", fiber.Map{
+		"data": dataDiskon,    
+		"title": "Daftar Diskon",
+})
 }
 
 func GetByCode(c *fiber.Ctx) error {

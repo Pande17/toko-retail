@@ -5,3 +5,6 @@ yang kurang :
 3. Historis [DONE]
 4. Update stok [DONE]
 5. Get-By-Code
+
+
+Server Error😂

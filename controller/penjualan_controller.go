@@ -57,12 +57,10 @@ func GetPenjualan(c *fiber.Ctx)	error {
 						},
 				)
 		}
-		return c.Status(fiber.StatusOK).JSON(
-				map[string]any{
-						"data":		dataPenjualan,
-						"message":	"Success",
-				},
-		)
+		return c.Render("admin/penjualan", fiber.Map{
+			"data": dataPenjualan,    
+			"title": "Daftar Penjualan",
+	})
 }
 
 func GetPenjualanByID(c *fiber.Ctx) error{
