@@ -163,8 +163,10 @@
             <input type="hidden" id="modal-name-hidden" name="Nama" />
             <input type="hidden" id="modal-price-hidden" name="HargaJual" />
             <input type="hidden" id="modal-stock-hidden" name="Stok" />
-            <div class="modal-footer">
-              <div class="mb-3">
+            <div
+              class="modal-footer d-flex justify-content-between align-items-center"
+            >
+              <div class="w-50">
                 <label for="jumlah-input" class="col-form-label"
                   >Masukkan Jumlah:</label
                 >
@@ -176,126 +178,22 @@
                   min="0"
                 />
               </div>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Batal
-              </button>
-              <button type="submit" class="btn btn-success">Beli</button>
+              <div class="d-flex justify-content-end pt-5">
+                <button
+                  type="button"
+                  class="btn btn-secondary me-2"
+                  data-bs-dismiss="modal"
+                >
+                  Batal
+                </button>
+                <button type="submit" class="btn btn-success">Beli</button>
+              </div>
             </div>
           </form>
         </div>
       </div>
     </div>
     <!-- Akhir Modal "Buy" -->
-
-    <!-- Awal Modal "Edit" -->
-    <div
-      class="modal fade"
-      id="editModal"
-      tabindex="-1"
-      aria-labelledby="editModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="editModalLabel">Edit Barang</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <form id="editForm" method="post" action="/editbarang">
-              <input type="hidden" id="edit-id" name="ID" />
-              <div class="mb-3">
-                <label for="edit-name" class="form-label">Nama</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="edit-name"
-                  name="Nama"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="edit-price" class="form-label">Harga</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="edit-price"
-                  name="HargaJual"
-                />
-              </div>
-              <div class="mb-3">
-                <label for="edit-stock" class="form-label">Stok</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="edit-stock"
-                  name="Stok"
-                />
-              </div>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Batal
-              </button>
-              <button type="submit" class="btn btn-primary">Simpan</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Akhir Modal "Edit" -->
-
-    <!-- Awal Modal "Delete" -->
-    <div
-      class="modal fade"
-      id="deleteModal"
-      tabindex="-1"
-      aria-labelledby="deleteModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h1 class="modal-title fs-5" id="deleteModalLabel">Hapus Barang</h1>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <p>
-              Anda yakin ingin menghapus <strong id="delete-name"></strong>?
-            </p>
-          </div>
-          <div class="modal-footer">
-            <form id="deleteForm" method="delete" action="/barang/${}">
-              <input type="hidden" id="delete-id" name="ID" />
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Batal
-              </button>
-              <button type="submit" class="btn btn-danger">Hapus</button>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Akhir Modal "Delete" -->
 
     <!-- Awal Footer -->
     <footer class="bg-success text-white text-center pt-3 pb-1 mt-5">
@@ -336,8 +234,6 @@
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         var buyButtons = document.querySelectorAll(".buy-button");
-        var editButtons = document.querySelectorAll(".edit-button");
-        var deleteButtons = document.querySelectorAll(".delete-button");
 
         // script untuk display data card dalam module "Buy"
         buyButtons.forEach(function (button) {
@@ -358,32 +254,6 @@
             document.getElementById("modal-price").textContent = "Rp. " + price;
             document.getElementById("modal-stock").textContent =
               "Stok: " + stock;
-          });
-        });
-
-        // script untuk display data card dalam module "Edit"
-        editButtons.forEach(function (button) {
-          button.addEventListener("click", function () {
-            var id = button.getAttribute("data-id");
-            var name = button.getAttribute("data-name");
-            var price = button.getAttribute("data-price");
-            var stock = button.getAttribute("data-stock");
-
-            document.getElementById("edit-id").value = id;
-            document.getElementById("edit-name").value = name;
-            document.getElementById("edit-price").value = price;
-            document.getElementById("edit-stock").value = stock;
-          });
-        });
-
-        // script untuk display data card dalam module "Delete"
-        deleteButtons.forEach(function (button) {
-          button.addEventListener("click", function () {
-            var id = button.getAttribute("data-id");
-            var name = button.getAttribute("data-name");
-
-            document.getElementById("delete-id").value = id;
-            document.getElementById("delete-name").textContent = name;
           });
         });
       });

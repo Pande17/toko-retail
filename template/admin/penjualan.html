@@ -104,7 +104,7 @@
       <div class="d-flex justify-content-end mb-3"></div>
       <table class="table table-striped">
         <thead>
-          <tr>
+          <tr class="text-center">
             <th>ID</th>
             <th>Kode Invoice</th>
             <th>Nama Pembeli</th>
@@ -117,7 +117,7 @@
         </thead>
         <tbody>
           {{range .data}}
-          <tr>
+          <tr class="text-center">
             <td>{{.ID}}</td>
             <td>{{.Kode_invoice}}</td>
             <td>{{.Nama_pembeli}}</td>
@@ -175,7 +175,7 @@
     <!-- Akhir Modal "Detail" -->
 
     <!-- Awal Footer -->
-    <footer class="bg-success text-white text-center pt-3 pb-1 mt-5">
+    <footer class="bg-success text-white text-center pt-3 pb-1 mt-auto">
       <p class="footer-text">
         Created with
         <svg

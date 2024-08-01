@@ -108,7 +108,7 @@
       </div>
       <table class="table table-striped">
         <thead>
-          <tr>
+          <tr class="text-center">
             <th>ID</th>
             <th>Nama</th>
             <th>Harga</th>
@@ -119,13 +119,13 @@
         </thead>
         <tbody>
           {{range .data}}
-          <tr>
+          <tr class="text-center">
             <td>{{.ID}}</td>
             <td>{{.Nama}}</td>
             <td>{{.HargaJual}}</td>
             <td>{{.TipeBarang}}</td>
             <td>{{.Stok}}</td>
-            <td>
+            <td class="me-5">
               <form
                 class="container-fluid justify-end"
                 method="post"

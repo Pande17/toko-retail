@@ -1,10 +1,10 @@
 yang kurang :
 
-1. UI (website) [80%]
-2. Penjualan
+1. UI (website) [90%]
+2. Penjualan (diskon, namaPembeli, kodeInvoice)
 3. Historis [DONE]
 4. Update stok [DONE]
-5. Get-By-Code
+5. Get-By-Code ()
 
 
 Server Error😂

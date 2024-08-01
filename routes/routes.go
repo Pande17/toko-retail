@@ -26,16 +26,16 @@ func RouteSetup(r *fiber.App) {
 
 	// Define routes penjualan
 	retailGroup.Get("/admin/penjualan", controller.GetPenjualan)
-	retailGroup.Get("/penjualan/:id", controller.GetPenjualanByID)
+	retailGroup.Get("/admin/penjualan/:id", controller.GetPenjualanByID)
 	retailGroup.Post("/penjualan", controller.InsertPenjualanData)
 	
 	// Define routes kode diskon
 	retailGroup.Get("/admin/kode-diskon", controller.GetKodeDiskon)
-	retailGroup.Get("/kode-diskon/:id", controller.GetDiskonByID)
-	retailGroup.Get("/kode-diskon/get-by-code", controller.GetByCode)
+	retailGroup.Get("/admin/kode-diskon/:id", controller.GetDiskonByID)
+	retailGroup.Get("/admin/kode-diskon/get-by-code", controller.GetByCode)
 	retailGroup.Post("/kode-diskon", controller.CreateKodeDiskon)
-	retailGroup.Put("/kode-diskon/:id", controller.UpdateCode)
-	retailGroup.Delete("kode-diskon/:id", controller.DeleteKode)
+	retailGroup.Put("/admin/kode-diskon/:id", controller.UpdateCode)
+	retailGroup.Delete("/admin/kode-diskon/:id", controller.DeleteKode)
 
 	retailGroup.Get("/test", func(c *fiber.Ctx) error {
 		return c.Render("test", fiber.Map{
