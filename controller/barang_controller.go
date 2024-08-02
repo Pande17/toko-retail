@@ -251,3 +251,9 @@ func UpdateStok(c *fiber.Ctx) error {
         },
     })
 }
+
+func KeranjangList(c *fiber.Ctx) error {
+	return c.Render("barang/keranjang", map[string]interface{}{
+		"title": "Keranjang Belanja",
+	})
+}

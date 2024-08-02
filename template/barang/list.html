@@ -38,6 +38,41 @@
         display: flex;
         align-items: center;
       }
+
+      .quantity-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .quantity-input {
+        display: flex;
+        align-items: center;
+      }
+
+      .quantity-button {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .quantity-button:hover {
+        background-color: #e0e0e0;
+      }
+
+      input[type="number"] {
+        width: 50px;
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 5px;
+      }
+
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0; /* Chrome, Safari, Edge, Opera */
+      }
     </style>
   </head>
 
@@ -166,27 +201,39 @@
             <div
               class="modal-footer d-flex justify-content-between align-items-center"
             >
-              <div class="w-50">
-                <label for="jumlah-input" class="col-form-label"
-                  >Masukkan Jumlah:</label
-                >
-                <input
-                  type="number"
-                  class="form-control"
-                  id="jumlah-input"
-                  name="jumlah"
-                  min="0"
-                />
+              <div class="quantity-container">
+                <label for="quantity">Total</label>
+                <div class="quantity-input">
+                  <button
+                    type="button"
+                    class="quantity-button"
+                    onclick="decrement()"
+                  >
+                    -
+                  </button>
+                  <input
+                    class=""
+                    type="number"
+                    id="quantity"
+                    value="1"
+                    min="1"
+                  />
+                  <button
+                    type="button"
+                    class="quantity-button"
+                    onclick="increment()"
+                  >
+                    +
+                  </button>
+                </div>
               </div>
-              <div class="d-flex justify-content-end pt-5">
-                <button
-                  type="button"
-                  class="btn btn-secondary me-2"
-                  data-bs-dismiss="modal"
-                >
-                  Batal
+              <div class="d-flex justify-content-start pt-3">
+                <button type="button" class="btn btn-outline-success me-2">
+                  <i class="bi bi-basket"></i> Masukkan Keranjang
                 </button>
-                <button type="submit" class="btn btn-success">Beli</button>
+                <button type="submit" class="btn btn-success">
+                  Beli Sekarang
+                </button>
               </div>
             </div>
           </form>
@@ -257,6 +304,23 @@
           });
         });
       });
+    </script>
+
+    <!-- script untuk button kuantitas barang -->
+    <script>
+      function increment() {
+        var quantityInput = document.getElementById("quantity");
+        var currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+      }
+
+      function decrement() {
+        var quantityInput = document.getElementById("quantity");
+        var currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+          quantityInput.value = currentValue - 1;
+        }
+      }
     </script>
 
     <!-- script untuk modal dan alert -->
