@@ -9,7 +9,7 @@ import (
 func CreateKodeDiskon(data model.Diskon) (model.Diskon, error) {
 	data.CreatedAt = time.Now()
 	data.UpdatedAt = time.Now()
-	err := data.Create(config.Mysql.DB)
+	err := data.CreateDiskon(config.Mysql.DB)
 
 	return data, err
 }

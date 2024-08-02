@@ -10,12 +10,8 @@ type Diskon struct {
 	Model
 }
 
-func (kd *Diskon) Create(db *gorm.DB) error {
-	err := db.
-		Model(Diskon{}).
-		Create(&kd).
-		Error
-
+func (kd *Diskon) CreateDiskon(db *gorm.DB) error {
+	err := db.Model(Diskon{}).Create(&kd).Error
 	if err != nil {
 		return err
 	}

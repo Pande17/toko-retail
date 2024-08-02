@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/sirupsen/logrus"
+	logrus "github.com/sirupsen/logrus"
 )
 
 func InsertPenjualanData(c *fiber.Ctx) error {
@@ -28,12 +28,12 @@ func InsertPenjualanData(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(req); err != nil {
 		return c.Status(fiber.StatusBadRequest).
-			JSON(map[string]any{
+			JSON(map[string]interface{}{
 				"message": "invalid Body",
 			})
 	}
 
-	_, errInsertPenjualan := utils.InsertPenjualanData(model.Penjualan{
+	penjualan :=  model.Penjualan{
 		ID:           req.ID,
 		Kode_invoice: req.KodeInvoice,
 		Nama_pembeli: req.NamaPembeli,
@@ -42,18 +42,19 @@ func InsertPenjualanData(c *fiber.Ctx) error {
 		Diskon:       req.Diskon,
 		Total:        req.Total,
 		Created_by:   req.CreatedBy,
-	})
+	}
 
+	_, errInsertPenjualan := utils.InsertPenjualanData(penjualan)
 	if errInsertPenjualan != nil {
 		logrus.Printf("Terjadi error : %s\n", errInsertPenjualan.Error())
 		return c.Status(fiber.StatusInternalServerError).
-			JSON(map[string]any{
+			JSON(map[string]interface{}{
 				"message": "Server Error",
 			})
 	}
 
 	return c.Status(fiber.StatusOK).
-		JSON(map[string]any{
+		JSON(map[string]interface{}{
 			"message": "Berhasil Menambahkan Barang",
 		})
 }
@@ -63,15 +64,16 @@ func GetPenjualan(c *fiber.Ctx) error {
 	if err != nil {
 		logrus.Error("Gagal dalam mengambil list penjualan :", err.Error())
 		return c.Status(fiber.StatusInternalServerError).JSON(
-			map[string]any{
+			map[string]interface{}{
 				"message": "Server Error",
 			},
 		)
 	}
 
+	if dataPenjualan != nil {
 	logrus.Info("Data Penjualan yang diterima: ", dataPenjualan)
 	logrus.Info("Jumlah item dalam data penjualan: ", len(dataPenjualan))
-
+	}
 	return c.Render("admin/penjualan",fiber.Map{
 		"data": dataPenjualan,
 		"title": "Daftar Penjualan",
@@ -82,7 +84,7 @@ func GetPenjualanByID(c *fiber.Ctx) error {
 	penjualanID, err := strconv.Atoi(c.Params("id"))
 	if err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(
-			map[string]any{
+			map[string]interface{}{
 				"message": "Invalid ID",
 			},
 		)
@@ -92,20 +94,20 @@ func GetPenjualanByID(c *fiber.Ctx) error {
 	if err != nil {
 		if err.Error() == "record not found" {
 			return c.Status(fiber.StatusNotFound).JSON(
-				map[string]any{
+				map[string]interface{}{
 					"message": "ID not found",
 				},
 			)
 		}
 		return c.Status(fiber.StatusInternalServerError).JSON(
-			map[string]any{
+			map[string]interface{}{
 				"message": "Server Error",
 			},
 		)
 	}
 
 	return c.Status(fiber.StatusOK).JSON(
-		map[string]any{
+		map[string]interface{}{
 			"data": dataPenjualan,
 			"message": "success",
 		},

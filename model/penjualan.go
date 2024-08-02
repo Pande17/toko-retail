@@ -27,11 +27,7 @@ type CreateP struct {
 }
 
 func (pj *Penjualan) CreatePenjualan(db *gorm.DB) error {
-	err := db.
-		Model(Penjualan{}).
-		Create(&pj).
-		Error
-
+	err := db.Create(&pj).Error
 	if err != nil {
 		return err
 	}
@@ -42,11 +38,7 @@ func (pj *Penjualan) CreatePenjualan(db *gorm.DB) error {
 func (pj *Penjualan) GetAll(db *gorm.DB) ([]Penjualan, error) {
 	res := []Penjualan{}
 
-	err := db.
-		Model(Penjualan{}).
-		Find(&res).
-		Error
-
+	err := db.Model(Penjualan{}).Find(&res).Error
 	if err != nil {
 		return []Penjualan{}, err
 	}
@@ -57,12 +49,7 @@ func (pj *Penjualan) GetAll(db *gorm.DB) ([]Penjualan, error) {
 func (pj *Penjualan) GetPByID(db *gorm.DB) (Penjualan, error) {
 	res := Penjualan{}
 
-	err := db.
-		Model(Penjualan{}).
-		Where("id = ?", pj.ID).
-		Take(&res).
-		Error
-
+	err := db.Model(Penjualan{}).Where("id = ?", pj.ID).Take(&res).Error
 	if err != nil {
 		return Penjualan{}, err
 	}
@@ -70,16 +57,10 @@ func (pj *Penjualan) GetPByID(db *gorm.DB) (Penjualan, error) {
 	return res, nil
 }
 
-func (pj *Penjualan) UpdateInvoicePenjualan(db *gorm.DB, id uint64) error {
-	err := db.
-		Model(Penjualan{}).
-		Where("id = ?", id).
-		Update("kode_invoice", pj.Kode_invoice).
-		Error
-
-	if err != nil {
-		return err
-	}
-
-	return nil
+func (pj *Penjualan) Update(db *gorm.DB) error {
+	err := db.Model(Penjualan{}).Where("id = ?", pj.ID).Updates(&pj).Error
+    if err != nil {
+        return err
+    }
+    return nil
 }
