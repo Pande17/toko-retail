@@ -1,3 +1,3 @@
-# GO+FIBER+MONGODB: TOKO RETAIL
+# GO+FIBER+MYSQL: TOKO RETAIL
 
 ## Sebuah Projek Webservice dengan topik toko retail
