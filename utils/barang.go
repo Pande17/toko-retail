@@ -4,43 +4,63 @@ import (
 	"fmt"
 	"projek/toko-retail/model"
 	repository "projek/toko-retail/repository/config"
+	"projek/toko-retail/repository/modelfunc"
 	"strconv"
 	"time"
 )
 
 // function untuk membuat data barang baru
 func CreateBarang(data model.Barang) (model.CreateB, error) {
-	data.CreatedAt = time.Now()
-	data.UpdatedAt = time.Now()
-	if data.CreatedBy == "" {
-		data.CreatedBy = "SYSTEM"
+	// Initialize repository.Barang with model.Barang data
+	repoBarang := modelfunc.Barang{
+		Barang: data,
 	}
 
-	data.Create(repository.Mysql.DB)
-	if data.TipeBarang == "MAKANAN" {
-			data.KodeBarang = fmt.Sprintf("MA-%v", strconv.FormatUint(uint64(data.ID), 10))
-	} else if data.TipeBarang == "MINUMAN" {
-			data.KodeBarang = fmt.Sprintf("MI-%v", strconv.FormatUint(uint64(data.ID), 10))
-	} else {
-			data.KodeBarang = fmt.Sprintf("L-%v", strconv.FormatUint(uint64(data.ID), 10))
+	// Set timestamps and default CreatedBy if not provided
+	repoBarang.CreatedAt = time.Now()
+	repoBarang.UpdatedAt = time.Now()
+	if repoBarang.CreatedBy == "" {
+		repoBarang.CreatedBy = "SYSTEM"
 	}
 
-	data.Update(repository.Mysql.DB)
-
-	histori, err := GetASK(data.ID)
+	// Create new barang record in the database
+	err := repoBarang.Create(repository.Mysql.DB)
 	if err != nil {
-			return model.CreateB{}, err
+		return model.CreateB{}, err
 	}
 
+	// Set KodeBarang based on TipeBarang and newly created ID
+	if repoBarang.TipeBarang == "MAKANAN" {
+		repoBarang.KodeBarang = fmt.Sprintf("MA-%v", strconv.FormatUint(repoBarang.ID, 10))
+	} else if repoBarang.TipeBarang == "MINUMAN" {
+		repoBarang.KodeBarang = fmt.Sprintf("MI-%v", strconv.FormatUint(repoBarang.ID, 10))
+	} else {
+		repoBarang.KodeBarang = fmt.Sprintf("L-%v", strconv.FormatUint(repoBarang.ID, 10))
+	}
+
+	// Update barang record with the new KodeBarang
+	err = repoBarang.Update(repository.Mysql.DB)
+	if err != nil {
+		return model.CreateB{}, err
+	}
+
+	// Fetch histori data for the newly created barang
+	histori, err := GetASK(repoBarang.ID)
+	if err != nil {
+		return model.CreateB{}, err
+	}
+
+	// Prepare the CreateB response with updated data and histori
 	createB := model.CreateB{
-			ID:				data.ID,
-			KodeBarang: 	data.KodeBarang,
-			Nama: 			data.Nama,
-			HargaPokok: 	data.HargaPokok,
-			HargaJual: 		data.HargaJual,
-			TipeBarang: 	data.TipeBarang,
-			Stok: 			data.Stok,
-			Histori: 		histori,
+		ID:         repoBarang.ID,
+		KodeBarang: repoBarang.KodeBarang,
+		Nama:       repoBarang.Nama,
+		HargaPokok: repoBarang.HargaPokok,
+		HargaJual:  repoBarang.HargaJual,
+		TipeBarang: repoBarang.TipeBarang,
+		Stok:       repoBarang.Stok,
+		CreatedBy:  repoBarang.CreatedBy,
+		Histori:    histori,
 	}
 
 	return createB, nil
@@ -48,50 +68,66 @@ func CreateBarang(data model.Barang) (model.CreateB, error) {
 
 // function untuk mendapatkan list barang yang ada
 func GetBarang() ([]model.Barang, error) {
-	var barang model.Barang
+	var barang modelfunc.Barang
 	return barang.GetAll(repository.Mysql.DB)
 }
 
 // function untuk mendapatkan data barang berdasarkan ID barangnya
 func GetBarangByID(id uint64) (model.Details, error) {
-		barang := model.Barang{
-				ID : id,
-		}
-		barang, err := barang.GetByID(repository.Mysql.DB)
-		if err != nil {
-			return model.Details{}, err
-		}
+	barang := modelfunc.Barang{
+		Barang: model.Barang{
+			ID: id,
+		},
+	}
+	barangModel, err := barang.GetByID(repository.Mysql.DB)
+	if err != nil {
+		return model.Details{}, err
+	}
 
-		histori, err := GetASKMByIDBarang(barang.ID)
-		if err != nil {
-				return model.Details{}, err
-		}
+	histori, err := GetASKMByIDBarang(barangModel.ID)
+	if err != nil {
+		return model.Details{}, err
+	}
 
-		details := model.Details{
-				ID: barang.ID,
-				KodeBarang: barang.KodeBarang,
-				Nama: barang.Nama,
-				HargaPokok: barang.HargaJual,
-				HargaJual: barang.HargaJual,
-				TipeBarang: barang.TipeBarang,
-				Stok: barang.Stok,
-				Model: barang.Model,
-				Histori: histori,
-		}
-		return details, nil
+	details := model.Details{
+		ID:         barangModel.ID,
+		KodeBarang: barangModel.KodeBarang,
+		Nama:       barangModel.Nama,
+		HargaPokok: barangModel.HargaPokok,
+		HargaJual:  barangModel.HargaJual,
+		TipeBarang: barangModel.TipeBarang,
+		Stok:       barangModel.Stok,
+		Model:      barangModel.Model,
+		Histori:    histori,
+	}
+	return details, nil
 }
 
 // function untuk update data barang
 func UpdateBarang(id uint, barang model.Barang) (model.Barang, error) {
-		barang.ID = uint64(id)
-		err := barang.Update(repository.Mysql.DB)
-		return barang, err
+	repoBarang := modelfunc.Barang{
+		Barang: model.Barang{
+			ID:         uint64(id),
+			KodeBarang: barang.KodeBarang,
+			Nama:       barang.Nama,
+			HargaPokok: barang.HargaPokok,
+			HargaJual:  barang.HargaJual,
+			TipeBarang: barang.TipeBarang,
+			Stok:       barang.Stok,
+			Model:      barang.Model,
+			CreatedBy:  barang.CreatedBy,
+		},
+	}
+	err := repoBarang.Update(repository.Mysql.DB)
+	return repoBarang.Barang, err
 }
 
 func DeleteBarang(id uint64) error {
-		barang := model.Barang{
-				ID: id,
-		}
+	barang := modelfunc.Barang{
+		Barang: model.Barang{
+			ID: id,
+		},
+	}
 		return barang.Delete(repository.Mysql.DB)
 }
 

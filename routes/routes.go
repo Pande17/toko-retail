@@ -46,4 +46,8 @@ func RouteSetup(r *fiber.App) {
 
 	retailGroup.Get("/admin/dashboard", controller.AdminGetBarang)
 
+	retailGroup.Get("/checkout", func(c *fiber.Ctx) error {
+		return nil
+	})
+
 }

@@ -148,6 +148,45 @@
                 >
                   <i class="bi bi-cart"></i> Buy
                 </button>
+                <button
+                  type="button"
+                  class="btn btn-warning edit-button me-2"
+                  data-id="{{.ID}}"
+                  data-name="{{.Nama}}"
+                  data-price="{{.HargaJual}}"
+                  data-stock="{{.Stok}}"
+                  data-img="https://picsum.photos/200/150?random={{.ID}}"
+                  data-bs-toggle="modal"
+                  data-bs-target="#editModal"
+                >
+                  <i class="bi bi-pencil-square"></i> Edit
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-danger delete-button me-2"
+                  data-id="{{.ID}}"
+                  data-name="{{.Nama}}"
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteModal"
+                >
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-secondary detail-button me-2"
+                  data-id="{{.ID}}"
+                  data-kode-barang="{{.KodeBarang}}"
+                  data-name="{{.Nama}}"
+                  data-harga-pokok="{{.HargaPokok}}"
+                  data-harga-jual="{{.HargaJual}}"
+                  data-tipe-barang="{{.TipeBarang}}"
+                  data-stock="{{.Stok}}"
+                  data-created-by="{{.CreatedBy}}"
+                  data-bs-toggle="modal"
+                  data-bs-target="#detailModal"
+                >
+                  <i class="bi bi-search"></i> Detail
+                </button>
               </form>
             </td>
           </tr>

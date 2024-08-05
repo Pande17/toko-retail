@@ -1,7 +1,5 @@
 package model
 
-import "gorm.io/gorm"
-
 type Barang struct {
 	ID         uint64  `gorm:"primarykey" json:"id"`
 	KodeBarang string  `json:"kode_barang"`
@@ -39,44 +37,3 @@ type CreateB struct {
 	Histori    []HistoriASK `gorm:"foreignKey:ID_Barang" json:"histori_stok"`
 }
 
-func (br *Barang) Create(db *gorm.DB) error {
-	err := db.Model(Barang{}).Create(&br).Error
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
-func (br *Barang) GetAll(db *gorm.DB) ([]Barang, error) {
-	res := []Barang{}
-	err := db.Model(Barang{}).Find(&res).Error
-	if err!= nil {
-        return res, err
-    }
-	return res, nil
-}
-
-func (br *Barang) GetByID(db *gorm.DB) (Barang, error) {
-	res := Barang{}
-	err := db.Model(Barang{}).Where("id = ?",br.ID).Find(&res).Error
-	if err!= nil {
-        return res, err
-    }
-	return res, nil
-}
-
-func (br *Barang) Update(db *gorm.DB) error {
-	err := db.Model(Barang{}).Where("id = ?", br.ID).Updates(&br).Error
-    if err != nil {
-        return err
-    }
-    return nil
-}
-
-func (br *Barang) Delete(db *gorm.DB) error {
-	err := db.Where("id = ?", br.ID).Delete(&Barang{}).Error
-    if err != nil {
-        return err
-    }
-    return nil
-}

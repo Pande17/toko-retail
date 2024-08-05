@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>List Barang</title>
+    <title>Keranjang</title>
     <link rel="icon" href="/src/img/icon.png" />
     <link rel="stylesheet" href="/src/css/style.css" />
     <link
@@ -27,6 +27,19 @@
       .lgreen {
         background-color: rgb(234, 255, 232);
       }
+      body {
+        display: flex;
+        flex-direction: column;
+        min-height: 2000px;
+      }
+
+      footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+      }
+
       .footer-text {
         padding-top: 5vh;
       }
@@ -37,6 +50,109 @@
       .modal-content .modal-body {
         display: flex;
         align-items: center;
+      }
+      .checkbox-container {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        margin-bottom: 10px;
+      }
+      .checkbox-container input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        color: green;
+        margin-right: 10px;
+      }
+
+      .me-auto {
+        margin-right: auto;
+      }
+
+      .ms-auto {
+        margin-left: auto;
+      }
+
+      .me-3 {
+        margin-right: 2rem;
+      }
+
+      /* style for sticky coBar */
+      .coBar {
+        margin-top: 5rem;
+        position: sticky;
+        bottom: 0;
+        z-index: 1000; /* Ensure it's above other content */
+        background-color: white; /* Background color to ensure visibility */
+        padding: 10px; /* Add padding for visual appeal */
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for separation */
+      }
+
+      .p-spacing {
+        margin-right: 3rem; /* Sesuaikan nilai margin sesuai kebutuhan */
+      }
+
+      /* style for quantity counter */
+      .quantity-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .quantity-input {
+        display: flex;
+        align-items: center;
+      }
+
+      .quantity-button {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+
+      .quantity-button:hover {
+        background-color: #e0e0e0;
+      }
+
+      input[type="number"] {
+        width: 50px;
+        text-align: center;
+        border: 1px solid #ccc;
+        padding: 5px;
+      }
+
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0; /* Chrome, Safari, Edge, Opera */
+      }
+
+      .card-body-header,
+      .card-body-content {
+        display: flex;
+        align-items: center;
+      }
+
+      .card-body-header p,
+      .card-body-content p {
+        flex: 1;
+        text-align: center;
+      }
+
+      .card-body-header label,
+      .card-body-content label {
+        flex: 2;
+      }
+
+      .card-body-content .quantity-container {
+        flex: 1;
+        justify-content: center;
+      }
+
+      .title-truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     </style>
   </head>
@@ -62,7 +178,14 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto me-4">
             <li class="nav-item">
-              <a class="nav-link fs-5 text-light" href="/#about">About</a>
+              <a class="nav-link fs-5 text-light me-2" href="/#about">About</a>
+            </li>
+            <li>
+              <form class="container-fluid-justify-end">
+                <a href="/barang/keranjang" class="btn btn-success fs-5">
+                  <i class="bi bi-basket"></i> Keranjang
+                </a>
+              </form>
             </li>
             <li>
               <form class="container-fluid justify-end">
@@ -76,14 +199,101 @@
       </div>
     </nav>
     <!-- Akhir Navbar -->
-    <h1>{{.title}}</h1>
 
     <!-- Awal Keranjang -->
-    <h1>INI KERANJANG</h1>
+    <div class="container mt-5 pt-5">
+      <h1 class="mb-5 text-center text-success">Keranjang Belanja</h1>
+      <div class="row justify-content-center">
+        <div class="card mb-2">
+          <div class="card-body card-body-header">
+            <div class="checkbox-container me-auto">
+              <input
+                type="checkbox"
+                id="checkboxAllTop"
+                name="checkboxAllTop"
+              />
+              <label for="checkboxAllTop" class="ms-3">Produk</label>
+            </div>
+            <p class="text-body-secondary">Harga Satuan</p>
+            <p class="text-body-secondary">Kuantitas</p>
+            <p class="text-body-secondary">Total</p>
+            <p class="me-4 text-body-secondary">Aksi</p>
+          </div>
+        </div>
+
+        <!-- range .data -->
+        <div class="card">
+          <div class="card-body card-body-content">
+            <div class="checkbox-container me-3">
+              <input
+                type="checkbox"
+                class="checkboxname"
+                id="chkboxProduct1"
+                name="Product1"
+              />
+              <img
+                src="/src/img/produk1.jpg"
+                alt="produk"
+                width="70px"
+                class="ms-2"
+              />
+              <p class="">
+                [New Launch] SKINTIFIC - Niacinamide Bright Boost Clay Stick 4
+              </p>
+              <label for="chkboxProduct1">{{.barang}}</label>
+            </div>
+            <p class="text-body-secondary">Rp.109.000.000</p>
+            <div class="quantity-container">
+              <label for="quantity" class="d-none">Quantity</label>
+              <button
+                type="button"
+                class="quantity-button"
+                onclick="decrement()"
+              >
+                -
+              </button>
+              <input
+                type="number"
+                id="quantity"
+                value="1"
+                min="1"
+                aria-label="Quantity"
+              />
+              <button
+                type="button"
+                class="quantity-button"
+                onclick="increment()"
+              >
+                +
+              </button>
+            </div>
+            <p class="text-body-secondary">Rp.109.000.000</p>
+            <p class="me-4 text-body-secondary">Hapus</p>
+          </div>
+        </div>
+        <!-- .end -->
+
+        <!-- awal Check out bar -->
+        <div class="coBar shadow">
+          <div class="d-flex justify-content-end">
+            <div class="checkbox-container me-auto">
+              <input
+                type="checkbox"
+                id="checkboxAllBottom"
+                name="checkboxAllBottom"
+              />
+              <label for="checkboxAllBottom">Pilih Semua ()</label>
+            </div>
+            <button type="button" class="btn btn-success me-2">Checkout</button>
+          </div>
+        </div>
+        <!-- akhir Check out bar -->
+      </div>
+    </div>
     <!-- Akhir Keranjang -->
 
     <!-- Awal Footer -->
-    <footer class="bg-success text-white text-center pt-3 pb-1 mt-auto">
+    <!-- <footer class="bg-success text-white text-center pt-3 pb-1 mt-5">
       <p class="footer-text">
         Created with
         <svg
@@ -107,7 +317,7 @@
           >Pande Feri</a
         >
       </p>
-    </footer>
+    </footer> -->
     <!-- Akhir Footer -->
 
     <!-- script bootstrap -->
@@ -119,5 +329,73 @@
 
     <!-- script untuk modal dan alert -->
     <script src="/src/js/list1.js"></script>
+
+    <!-- Script untuk checkbox all -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const checkboxAllTop = document.getElementById("checkboxAllTop");
+        const checkboxAllBottom = document.getElementById("checkboxAllBottom");
+        const checkboxes = document.querySelectorAll(".checkboxname");
+
+        function syncCheckboxes(source, target) {
+          target.checked = source.checked;
+        }
+
+        function toggleCheckboxes(checked) {
+          checkboxes.forEach((checkbox) => {
+            checkbox.checked = checked;
+          });
+        }
+
+        checkboxAllTop.addEventListener("change", function () {
+          syncCheckboxes(checkboxAllTop, checkboxAllBottom);
+          toggleCheckboxes(checkboxAllTop.checked);
+        });
+
+        checkboxAllBottom.addEventListener("change", function () {
+          syncCheckboxes(checkboxAllBottom, checkboxAllTop);
+          toggleCheckboxes(checkboxAllBottom.checked);
+        });
+      });
+    </script>
+
+    <!-- script untuk button kuantitas barang -->
+    <script>
+      function increment() {
+        var quantityInput = document.getElementById("quantity");
+        var currentValue = parseInt(quantityInput.value);
+        quantityInput.value = currentValue + 1;
+      }
+
+      function decrement() {
+        var quantityInput = document.getElementById("quantity");
+        var currentValue = parseInt(quantityInput.value);
+        if (currentValue > 1) {
+          quantityInput.value = currentValue - 1;
+        }
+      }
+    </script>
+
+    <!-- script untuk coBar (Check Out bar) -->
+    <!-- <script>
+      let coBar = document.getElementsByClassName("coBar")[0];
+      let coBar_content = document.getElementsByName("coBar-content")[0];
+      window.onscroll = () => {
+        let scrollTop = window.scrollY; // current scroll position
+        let viewportHeight = window.innerHeight; // viewport height
+        let contentHeight = coBar_content.getBoundingClientRect().height; // current content height
+        let coBarTop = coBar.getBoundingClientRect().top + window.pageYOffset; // distance from top to coBar
+
+        if (scrollTop >= contentHeight - viewportHeight + coBarTop) {
+          coBar_content.style.transform = `translateY(-${
+            contentHeight - viewportHeight + coBarTop
+          }px)`;
+          coBar_content.style.transform = "fixed";
+        } else {
+          coBar_content.style.transform = "";
+          coBar_content.style.position = "";
+        }
+      };
+    </script> -->
   </body>
 </html>

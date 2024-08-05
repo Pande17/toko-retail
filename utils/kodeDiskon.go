@@ -2,41 +2,84 @@ package utils
 
 import (
 	"projek/toko-retail/model"
-	config "projek/toko-retail/repository/config"
+	repository "projek/toko-retail/repository/config"
+	"projek/toko-retail/repository/modelfunc"
 	"time"
 )
 
 func CreateKodeDiskon(data model.Diskon) (model.Diskon, error) {
-	data.CreatedAt = time.Now()
-	data.UpdatedAt = time.Now()
-	err := data.CreateDiskon(config.Mysql.DB)
+	repoDiskon := modelfunc.Diskon{
+		Diskon: data,
+	}
 
-	return data, err
+	repoDiskon.CreatedAt = time.Now()
+	repoDiskon.UpdatedAt = time.Now()
+
+	err := repoDiskon.CreateDiskon(repository.Mysql.DB)
+	if err != nil {
+		return model.Diskon{}, err
+	}
+
+	return repoDiskon.Diskon, nil
 }
 
+// function untuk mendapatkan semua diskon
 func GetDiskon() ([]model.Diskon, error) {
-	var Diskon model.Diskon
-	return Diskon.GetAll(config.Mysql.DB)
+	var diskon modelfunc.Diskon
+	repoDiskons, err := diskon.GetAll(repository.Mysql.DB)
+	if err!= nil {
+        return nil, err
+    }
+
+	var result []model.Diskon
+	for _, repoDiskon := range repoDiskons {
+		result = append(result, repoDiskon.Diskon)
+	}
+
+	return result, nil
 }
 
+// function untuk mendapatkan diskon berdasarkan kode
 func GetDiskonByCode(s string) (model.Diskon, error) {
-	diskon := model.Diskon{
-		KodeDiskon: s,
+	diskon := modelfunc.Diskon{
+		Diskon: model.Diskon{
+			KodeDiskon: s,
+		},
 	}
 
-	return diskon.GetByCode(config.Mysql.DB)
+	repoDiskon, err := diskon.GetByCode(repository.Mysql.DB)
+	if err != nil {
+		return model.Diskon{}, err
+	}
+
+	return repoDiskon.Diskon, nil
 }
 
+// function untuk mendapatkan diskon berdasarkan ID
 func GetDiskonByID(id uint) (model.Diskon, error) {
-	Diskon := model.Diskon{
-		ID: id,
+	diskon := modelfunc.Diskon{
+		Diskon: model.Diskon{
+			ID: id,
+		},
 	}
-	return Diskon.GetByID(config.Mysql.DB)
+
+	repoDiskon, err := diskon.GetByID(repository.Mysql.DB)
+	if err != nil {
+		return model.Diskon{}, err
+	}
+
+	return repoDiskon.Diskon, nil
 }
 
+// function untuk memperbarui diskon
 func UpdateDiskon(id uint, updatedDiskon model.Diskon) (model.Diskon, error) {
-	existingDiskon := model.Diskon{ID: id}
-	if err := config.Mysql.DB.First(&existingDiskon).Error; err != nil {
+	existingDiskon := modelfunc.Diskon{
+		Diskon: model.Diskon{
+			ID: id,
+		},
+	}
+
+	if err := repository.Mysql.DB.First(&existingDiskon.Diskon).Error; err != nil {
 		return model.Diskon{}, err
 	}
 
@@ -44,16 +87,20 @@ func UpdateDiskon(id uint, updatedDiskon model.Diskon) (model.Diskon, error) {
 	existingDiskon.Type = updatedDiskon.Type
 	existingDiskon.UpdatedAt = time.Now()
 
-	if err := config.Mysql.DB.Save(&existingDiskon).Error; err != nil {
+	if err := repository.Mysql.DB.Save(&existingDiskon.Diskon).Error; err != nil {
 		return model.Diskon{}, err
 	}
 
-	return existingDiskon, nil
+	return existingDiskon.Diskon, nil
 }
 
+// function untuk menghapus diskon berdasarkan ID
 func DeleteKode(id uint64) error {
-	Kode := model.Diskon{
-		ID: uint(id),
+	diskon := modelfunc.Diskon{
+		Diskon: model.Diskon{
+			ID: uint(id),
+		},
 	}
-	return Kode.Delete(config.Mysql.DB)
+
+	return diskon.Delete(repository.Mysql.DB)
 }
