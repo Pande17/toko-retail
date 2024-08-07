@@ -66,11 +66,15 @@ import (
 
 	func GetByCode(c *fiber.Ctx) error {
 		DiskonCode := c.Query("kode-diskon")
-		SubtotalStr := c.Query("subtotal")	
-		fmt.Println("Query Parameter: ", DiskonCode)
-
+		SubtotalStr := c.Query("subtotal")
+		
+		// Log the received query parameters
+		fmt.Println("Received kode-diskon:", DiskonCode)
+		fmt.Println("Received subtotal:", SubtotalStr)
+	
 		dataDiskon, err := utils.GetDiskonByCode(DiskonCode)
 		if err != nil {
+			fmt.Println("Error retrieving discount code:", err) // Log the error
 			if err.Error() == "record not found" {
 				return c.Status(fiber.StatusNotFound).JSON(
 					map[string]any{
@@ -82,41 +86,43 @@ import (
 				map[string]any{
 					"message": "Server Error",
 				},
-		)
-	}
-
-	var response fiber.Map
-	if SubtotalStr != "" {
-		// Apply diskon jika subtotal ada
-		subtotal, err := strconv.ParseFloat(SubtotalStr, 64)
-		if err != nil {
-			return c.Status(fiber.StatusBadRequest).JSON(
-				map[string]any{
-					"message": "Invalid Subtotal",
-				},
 			)
 		}
-
-		var finalAmount float64
-		if dataDiskon.Type == "PERCENT" {
-			finalAmount = subtotal - (subtotal *(dataDiskon.Amount / 100))
+	
+		var response fiber.Map
+		if SubtotalStr != "" {
+			// Apply diskon jika subtotal ada
+			subtotal, err := strconv.ParseFloat(SubtotalStr, 64)
+			if err != nil {
+				return c.Status(fiber.StatusBadRequest).JSON(
+					map[string]any{
+						"message": "Invalid Subtotal",
+					},
+				)
+			}
+	
+			var finalAmount float64
+			if dataDiskon.Type == "PERCENT" {
+				finalAmount = subtotal - (subtotal * (dataDiskon.Amount / 100))
+			} else {
+				finalAmount = subtotal - dataDiskon.Amount
+			}
+	
+			response = fiber.Map{
+				"subtotal": subtotal,
+				"diskon":   dataDiskon.Amount,
+				"total":    finalAmount,
+			}
 		} else {
-			finalAmount = subtotal - dataDiskon.Amount
+			response = fiber.Map{
+				"data": dataDiskon,
+			}
 		}
-
-		response = fiber.Map{
-			"subtotal": subtotal,
-			"diskon":	dataDiskon.Amount,
-			"total":	finalAmount,
-		}
-	}else {
-		response = fiber.Map{
-			"data":	dataDiskon,
-		}
+	
+		return c.JSON(response)
 	}
-
-	return c.Status(fiber.StatusOK).JSON(response)
-}
+	
+	
 
 	func GetDiskonByID(c *fiber.Ctx) error {
 		DiskonID, err := strconv.Atoi(c.Params("id"))

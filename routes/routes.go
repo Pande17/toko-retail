@@ -18,7 +18,7 @@ func RouteSetup(r *fiber.App) {
 
 	// Define routes barang
 	retailGroup.Get("/barang", controller.GetBarang)
-	retailGroup.Get("/barang/keranjang", controller.KeranjangList) // ==== untuk keranjang, jangan lupa buat func
+	retailGroup.Get("/keranjang", controller.KeranjangList) // ==== untuk keranjang, jangan lupa buat func
 	retailGroup.Get("/barang/:id", controller.GetBarangByID)
 	retailGroup.Post("/barang", controller.CreateBarang)
 	retailGroup.Put("/barang/:id", controller.UpdateBarang)

@@ -23,9 +23,19 @@
 
     <!-- Internal CSS -->
     <style>
+      body {
+        font-family: "Open Sauce One", sans-serif;
+        background-color: rgb(234, 255, 232);
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
       body,
       .lgreen {
         background-color: rgb(234, 255, 232);
+      }
+      .bi-cart {
+        color: white;
       }
       .footer-text {
         padding-top: 5vh;
@@ -79,7 +89,7 @@
   <body>
     <!-- Awal Navbar -->
     <nav
-      class="navbar navbar-expand-lg navbar-light bg-success shadow-sm fixed-top"
+      class="navbar navbar-expand-lg navbar-light bg-success shadow fixed-top"
     >
       <div class="container-fluid">
         <a class="navbar-brand text-light fs-4 ms-5" href="/#top">IndoShop</a>
@@ -97,19 +107,21 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto me-4">
             <li class="nav-item">
-              <a class="nav-link fs-5 text-light me-2" href="/#about">About</a>
+              <a class="nav-link fs-5 text-light me-1" href="/#about">About</a>
             </li>
             <li>
               <form class="container-fluid-justify-end">
-                <a href="/barang/keranjang" class="btn btn-success fs-5">
-                  <i class="bi bi-basket"></i> Keranjang
-                </a>
+                <button class="btn btn-success fs-5" aria-label="cart">
+                  <a href="/keranjang">
+                    <i class="bi bi-cart"></i>
+                  </a>
+                </button>
               </form>
             </li>
             <li>
               <form class="container-fluid justify-end">
                 <a href="/barang" class="btn btn-success fs-5 me-5">
-                  <i class="bi bi-cart"></i> Buy
+                  <i class="bi bi-buy"></i> Buy Now
                 </a>
               </form>
             </li>

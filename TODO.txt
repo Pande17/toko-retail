@@ -6,6 +6,7 @@ yang kurang :
 4. Update stok [DONE]
 5. (detail kode diskon)Get-By-Code [error lagi ANJJJ]
 6. Detaild []
-
+7. Note: index.html navbar nya udah bener, yang lain belum
+    Perbaiki tampilannya biar rapi, ga perlu responsif
 
 Server Error😂

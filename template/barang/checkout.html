@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Keranjang</title>
+    <title>Checkout</title>
     <link rel="icon" href="/src/img/icon.png" />
     <link rel="stylesheet" href="/src/css/style.css" />
     <link
@@ -71,6 +71,7 @@
         display: flex;
         align-items: center;
         justify-content: flex-end;
+        margin-top: 5rem;
       }
       .quantity-input {
         display: flex;
@@ -139,7 +140,7 @@
         clear: both;
       }
       .barang {
-        width: calc(72% - 50px);
+        width: calc(65% - 50px);
         display: inline-block;
         vertical-align: top;
       }
@@ -161,9 +162,9 @@
         margin-right: 1rem;
       }
       .coBar {
-        width: 340px;
+        width: 400px;
         height: auto;
-        padding-top: 20px;
+        padding-top: 50px;
         border-radius: 10px;
         background-color: #ffffff;
         display: grid;
@@ -186,6 +187,7 @@
         margin-bottom: 10px;
       }
       .btn-beli {
+        justify-content: center;
         width: 100%;
         height: 40px;
       }
@@ -239,25 +241,32 @@
     <main>
       <!-- Awal Keranjang -->
       <div class="container mt-5 pt-5" style="width: 98vw">
-        <h1 class="fw-bold mb-3 pb-4 text-center">Keranjang</h1>
+        <h1 class="fw-bold mb-3 pb-4 text-center">Beli Sekarang!</h1>
         <!-- Awal coBar -->
         <div class="coBar pt-3 shadow-sm">
-          <section class="ringkas-box">
-            <p class="fw-bold fs-5">Ringkasan Belanja</p>
-            <div class="ringkas-data">
-              <p>Total</p>
-              <p class="fw-bold">Rp. 129.290.000</p>
-            </div>
-            <hr />
+          <section class="ringkas-box shadow-sm">
             <button
               type="button"
               class="btn-beli btn btn-outline-success fw-bold"
             >
               Diskon Besar, Jangan Lewatkan!
             </button>
+          </section>
+
+          <section class="ringkas-box">
+            <p class="fw-bold fs-5">Ringkasan Belanja</p>
+            <div class="ringkas-data">
+              <p class="text-secondary">Total Harga (2 Barang)</p>
+              <p>Rp222.689.000</p>
+            </div>
+            <hr />
+            <div class="ringkas-data">
+              <p>Total Belanja</p>
+              <p class="fw-bold">Rp222.689.000</p>
+            </div>
             <hr />
             <button type="button" class="btn-beli btn btn-success fw-bold">
-              Beli ()
+              Beli Sekarang
             </button>
           </section>
         </div>
@@ -265,26 +274,9 @@
 
         <!-- Awal Daftar Barang Keranjang -->
         <div class="barang">
-          <div class="card-bd-ct card-bd-hd shadow-sm">
-            <div class="checkbox-container-hd me-3">
-              <input type="checkbox" id="checkboxAll" />
-              <label for="checkboxAll" class="fw-bold">Pilih Semua ()</label>
-              <div class="text-danger fw-bold">
-                <!-- untuk hapus barang dari keranjang -->
-                <form action="/delete">Hapus</form>
-              </div>
-            </div>
-          </div>
-
           <!-- range {{.data}} -->
           <div class="card-bd-ct shadow-sm">
             <div class="checkbox-container">
-              <input
-                type="checkbox"
-                class="checkboxname"
-                id="chkboxProduct1"
-                name="Product1"
-              />
               <img
                 src="/src/img/produk1.jpg"
                 alt="produk"
@@ -299,8 +291,6 @@
               </div>
             </div>
             <div class="barang-act">
-              <i class="bi bi-trash fs-4"></i>
-
               <div class="quantity-container">
                 <label for="quantity">
                   <div class="quantity-input">
