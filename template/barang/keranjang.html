@@ -6,14 +6,25 @@
     <title>IndoShop | Keranjang</title>
     <link rel="icon" href="/src/img/icon.png" />
     <link rel="stylesheet" href="/src/css/style.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
 
     <!-- Internal CSS -->
     <style>
       body {
-        font-family: 'Open Sauce One', sans-serif;
+        font-family: "Open Sauce One", sans-serif;
         background-color: rgb(234, 255, 232);
         display: flex;
         flex-direction: column;
@@ -46,8 +57,8 @@
         flex: 1;
         margin-left: 1rem;
       }
-      .checkbox-container-hd input[type='checkbox'],
-      .checkbox-container input[type='checkbox'] {
+      .checkbox-container-hd input[type="checkbox"],
+      .checkbox-container input[type="checkbox"] {
         width: 20px;
         height: 20px;
         accent-color: green;
@@ -74,14 +85,14 @@
       .quantity-button:hover {
         background-color: #e0e0e0;
       }
-      input[type='number'] {
+      input[type="number"] {
         width: 50px;
         text-align: center;
         border: 1px solid #ccc;
         padding: 5px;
       }
-      input[type='number']::-webkit-outer-spin-button,
-      input[type='number']::-webkit-inner-spin-button {
+      input[type="number"]::-webkit-outer-spin-button,
+      input[type="number"]::-webkit-inner-spin-button {
         -webkit-appearance: none;
         margin: 0;
       }
@@ -123,7 +134,7 @@
       }
       .container::before,
       .container::after {
-        content: '';
+        content: "";
         display: table;
         clear: both;
       }
@@ -182,10 +193,20 @@
   </head>
   <body>
     <!-- Awal Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-success shadow fixed-top">
+    <nav
+      class="navbar navbar-expand-lg navbar-light bg-success shadow fixed-top"
+    >
       <div class="container-fluid">
         <a class="navbar-brand text-light fs-4 ms-5" href="/#top">IndoShop</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -199,7 +220,9 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/barang" class="btn btn-success fs-5 me-5"> <i class="bi bi-buy"></i> Buy Now </a>
+              <a href="/barang" class="btn btn-success fs-5 me-5">
+                <i class="bi bi-buy"></i> Buy Now
+              </a>
             </li>
           </ul>
         </div>
@@ -220,9 +243,23 @@
               <p class="fw-bold">Rp. 129.290.000</p>
             </div>
             <hr />
-            <button type="button" class="btn-beli btn btn-outline-success fw-bold">Diskon Besar, Jangan Lewatkan!</button>
+            <button
+              type="button"
+              class="btn-beli btn btn-outline-success fw-bold"
+              data-id="{{.ID}}"
+              data-name="{{.Nama}}"
+              data-price="{{.HargaJual}}"
+              data-stock="{{.Stok}}"
+              data-img="https://picsum.photos/200/150?random={{.ID}}"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              Diskon Besar, Jangan Lewatkan!
+            </button>
             <hr />
-            <button type="button" class="btn-beli btn btn-success fw-bold">Beli ()</button>
+            <button type="button" class="btn-beli btn btn-success fw-bold">
+              Beli ()
+            </button>
           </section>
         </div>
         <!-- Akhir coBar -->
@@ -243,10 +280,22 @@
           <!-- range {{.data}} -->
           <div class="card-bd-ct shadow-sm">
             <div class="checkbox-container">
-              <input type="checkbox" class="checkboxname" id="chkboxProduct1" name="Product1" />
-              <img src="/src/img/produk1.jpg" alt="produk" width="70px" class="ms-2" />
+              <input
+                type="checkbox"
+                class="checkboxname"
+                id="chkboxProduct1"
+                name="Product1"
+              />
+              <img
+                src="/src/img/produk1.jpg"
+                alt="produk"
+                width="70px"
+                class="ms-2"
+              />
               <div class="barang-info">
-                <label for="chkboxProduct1"> [New Launch] SKINTIFIC - Niacinamide Bright Boost Clay Stick 4 </label>
+                <label for="chkboxProduct1">
+                  [New Launch] SKINTIFIC - Niacinamide Bright Boost Clay Stick 4
+                </label>
                 <p class="fw-bold">Rp6.178.000</p>
               </div>
             </div>
@@ -256,9 +305,21 @@
               <div class="quantity-container">
                 <label for="quantity">
                   <div class="quantity-input">
-                    <button type="button" class="quantity-button" onclick="decrement()">-</button>
+                    <button
+                      type="button"
+                      class="quantity-button"
+                      onclick="decrement()"
+                    >
+                      -
+                    </button>
                     <input type="number" id="quantity" value="1" min="1" />
-                    <button type="button" class="quantity-button" onclick="increment()">+</button>
+                    <button
+                      type="button"
+                      class="quantity-button"
+                      onclick="increment()"
+                    >
+                      +
+                    </button>
                   </div>
                 </label>
               </div>
@@ -270,17 +331,77 @@
       <!-- Akhir Keranjang -->
     </main>
 
+    <!-- Awal Modal Diskon -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Pakai Promo</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <img id="modal-img" src="" alt="barang" />
+            <div>
+              <h5 class="card-title" id="modal-name"></h5>
+              <h5 class="card-text" id="modal-price"></h5>
+              <p class="card-text" id="modal-stock"></p>
+            </div>
+          </div>
+          <form id="purchaseForm" method="post" action="/penjualan">
+            <input type="hidden" id="modal-id" name="ID" />
+            <input type="hidden" id="modal-name-hidden" name="Nama" />
+            <input type="hidden" id="modal-price-hidden" name="HargaJual" />
+            <input type="hidden" id="modal-stock-hidden" name="Stok" />
+            <div
+              class="modal-footer d-flex justify-content-end align-items-center"
+            >
+              <div class="d-flex justify-content-end pt-3">
+                <button type="submit" class="btn btn-success">
+                  Pakai Promo
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Akhir Modal Diskon -->
+
     <!-- Awal Footer -->
-    <footer class="bg-success text-white text-center pt-3 pb-1">
+    <footer class="bg-success text-white text-center pt-3 pb-1 mt-auto">
       <p class="footer-text">
         Created with
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
-          <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1" />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="red"
+          class="bi bi-suit-heart-fill"
+          viewBox="0 0 16 16"
+        >
+          <path
+            d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1"
+          />
         </svg>
         by
-        <a href="https://www.instagram.com/_bgspw/" class="text-white fw-bold">Bagus Perwira</a>
+        <a href="https://www.instagram.com/_bgspw/" class="text-white fw-bold"
+          >Bagus Perwira</a
+        >
         and
-        <a href="https://www.instagram.com/pandefw/" class="text-white fw-bold">Pande Feri</a>
+        <a href="https://www.instagram.com/pandefw/" class="text-white fw-bold"
+          >Pande Feri</a
+        >
       </p>
     </footer>
     <!-- Akhir Footer -->
@@ -295,11 +416,11 @@
 
     <!-- Script untuk checkbox all -->
     <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        const checkboxAll = document.getElementById('checkboxAll');
-        const checkboxes = document.querySelectorAll('.checkboxname');
+      document.addEventListener("DOMContentLoaded", function () {
+        const checkboxAll = document.getElementById("checkboxAll");
+        const checkboxes = document.querySelectorAll(".checkboxname");
 
-        checkboxAll.addEventListener('change', function () {
+        checkboxAll.addEventListener("change", function () {
           checkboxes.forEach((checkbox) => {
             checkbox.checked = checkboxAll.checked;
           });
@@ -310,17 +431,63 @@
     <!-- Script untuk button kuantitas barang -->
     <script>
       function increment() {
-        var quantityInput = document.getElementById('quantity');
+        var quantityInput = document.getElementById("quantity");
         var currentValue = parseInt(quantityInput.value);
         quantityInput.value = currentValue + 1;
       }
 
       function decrement() {
-        var quantityInput = document.getElementById('quantity');
+        var quantityInput = document.getElementById("quantity");
         var currentValue = parseInt(quantityInput.value);
         if (currentValue > 1) {
           quantityInput.value = currentValue - 1;
         }
+      }
+    </script>
+
+    <!-- script untuk display data card dalam modal "Diskon" -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var buyButtons = document.querySelectorAll(".buy-button");
+
+        buyButtons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            var id = button.getAttribute("data-id");
+            var name = button.getAttribute("data-name");
+            var price = button.getAttribute("data-price");
+            var stock = button.getAttribute("data-stock");
+            var img = button.getAttribute("data-img");
+
+            document.getElementById("modal-id").value = id;
+            document.getElementById("modal-name-hidden").value = name;
+            document.getElementById("modal-price-hidden").value = price;
+            document.getElementById("modal-stock-hidden").value = stock;
+
+            document.getElementById("modal-img").src = img;
+            document.getElementById("modal-name").textContent = name;
+            document.getElementById("modal-price").textContent = "Rp. " + price;
+            document.getElementById("modal-stock").textContent =
+              "Stok: " + stock;
+          });
+        });
+      });
+
+      // function untuk "Reset Kode" di modal "Diskon"
+      function checkDiscount() {
+        const discountSelect = document.getElementById("discounts");
+        const resetLink = document.getElementById("resetLink");
+        if (discountSelect.value === "") {
+          resetLink.classList.add("disabled");
+        } else {
+          resetLink.classList.remove("disabled");
+        }
+      }
+
+      function resetDiscount(event) {
+        event.preventDefault();
+        const discountSelect = document.getElementById("discounts");
+        discountSelect.value = "";
+        checkDiscount();
       }
     </script>
   </body>

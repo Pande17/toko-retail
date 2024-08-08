@@ -33,7 +33,7 @@ func RouteSetup(r *fiber.App) {
 	// Define routes kode diskon
 	retailGroup.Get("/admin/kode-diskon", controller.GetKodeDiskon)
 	retailGroup.Get("/admin/kode-diskon/:id", controller.GetDiskonByID)
-	retailGroup.Get("/admin/kode-diskon/get-by-code", controller.GetByCode)
+	retailGroup.Get("/kode-diskon/get-by-code", controller.GetByCode)
 	retailGroup.Post("/kode-diskon", controller.CreateKodeDiskon)
 	retailGroup.Put("/admin/kode-diskon/:id", controller.UpdateCode)
 	retailGroup.Delete("/admin/kode-diskon/:id", controller.DeleteKode)

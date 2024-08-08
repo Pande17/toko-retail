@@ -68,13 +68,21 @@ import (
 		DiskonCode := c.Query("kode-diskon")
 		SubtotalStr := c.Query("subtotal")
 		
-		// Log the received query parameters
 		fmt.Println("Received kode-diskon:", DiskonCode)
 		fmt.Println("Received subtotal:", SubtotalStr)
 	
+		if DiskonCode == "" {
+			fmt.Println("kode-diskon is empty")
+			return c.Status(fiber.StatusBadRequest).JSON(
+				map[string]any{
+					"message": "Invalid kode-diskon",
+				},
+			)
+		}
+	
 		dataDiskon, err := utils.GetDiskonByCode(DiskonCode)
 		if err != nil {
-			fmt.Println("Error retrieving discount code:", err) // Log the error
+			fmt.Println("Error retrieving discount code:", err)
 			if err.Error() == "record not found" {
 				return c.Status(fiber.StatusNotFound).JSON(
 					map[string]any{
@@ -91,7 +99,6 @@ import (
 	
 		var response fiber.Map
 		if SubtotalStr != "" {
-			// Apply diskon jika subtotal ada
 			subtotal, err := strconv.ParseFloat(SubtotalStr, 64)
 			if err != nil {
 				return c.Status(fiber.StatusBadRequest).JSON(
@@ -121,6 +128,7 @@ import (
 	
 		return c.JSON(response)
 	}
+	
 	
 	
 

@@ -42,23 +42,25 @@ func GetDiskon() ([]model.Diskon, error) {
 }
 
 // function untuk mendapatkan diskon berdasarkan kode
-func GetDiskonByCode(s string) (model.Diskon, error) {
-    logrus.Println("Searching for discount code:", s) // Log the search parameter
+func GetDiskonByCode(kodeDiskon string) (model.Diskon, error) {
+    logrus.Println("Searching for discount code:", kodeDiskon)
     diskon := modelfunc.Diskon{
         Diskon: model.Diskon{
-            KodeDiskon: s,
+            KodeDiskon: kodeDiskon,
         },
     }
 
-    repoDiskon, err := diskon.GetByCode(repository.Mysql.DB)
+    repoDiskon, err := diskon.GetByCode(repository.Mysql.DB, kodeDiskon)
     if err != nil {
-        logrus.Println("Error in GetByCode:", err) // Log the error
+        logrus.Println("Error in GetByCode:", err)
         return model.Diskon{}, err
     }
 
-    logrus.Println("Discount code found:", repoDiskon.Diskon) // Log the found record
+    logrus.Println("Discount code found:", repoDiskon.Diskon)
     return repoDiskon.Diskon, nil
 }
+
+
 
 
 // function untuk mendapatkan diskon berdasarkan ID
