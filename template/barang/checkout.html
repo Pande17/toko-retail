@@ -191,6 +191,20 @@
         width: 100%;
         height: 40px;
       }
+      .border-diskon {
+        padding: 10px;
+        cursor: pointer;
+        display: grid;
+      }
+      .modal-content .modal-body {
+        display: grid;
+        
+      }
+      .unselect-btn{
+        align-items: center;
+        padding: 5px;
+        color: red;
+      }
     </style>
   </head>
   <body>
@@ -212,20 +226,21 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto me-4">
+          <ul class="navbar-nav ms-auto me-4 align-items-center">
             <li class="nav-item">
-              <a class="nav-link fs-5 text-light me-1" href="/#about">About</a>
+              <a class="nav-link fs-5 text-light me-3" href="/#about">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 text-light me-1" href="/keranjang">
-                <i class="bi bi-cart"></i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/barang" class="btn btn-success fs-5 me-5">
+              <a href="/barang" class="nav-link text-light fs-5 me-3">
                 <i class="bi bi-buy"></i> Buy Now
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link fs-4 text-light me-5" href="/keranjang">
+                <i class="bi bi-cart"></i>
+              </a>
+            </li>
+            
           </ul>
         </div>
       </div>
@@ -240,8 +255,15 @@
         <div class="coBar pt-3 shadow-sm">
           <section class="ringkas-box shadow-sm">
             <button
-              type="button"
-              class="btn-beli btn btn-outline-success fw-bold"
+            type="button"
+            class="btn-beli btn btn-outline-success fw-bold"
+            data-id="{{.ID}}"
+            data-name="{{.Nama}}"
+            data-price="{{.HargaJual}}"
+            data-stock="{{.Stok}}"
+            data-img="https://picsum.photos/200/150?random={{.ID}}"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
             >
               Diskon Besar, Jangan Lewatkan!
             </button>
@@ -314,6 +336,87 @@
       <!-- Akhir Keranjang -->
     </main>
 
+    <!-- Awal Modal Diskon -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Pilih Promo</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          
+          <div class="modal-body ">
+            <!-- {{range .data}} -->
+            <div class="p-2">
+            <div class="border-diskon border border-secondary rounded shdow-sm bg-body-tertiary" id="border-diskon">
+                <h6 class="card-title fw-bold" id="modal-kode">Gunakan Kode: {{.kode-diskon}}</h6>
+                <p class="card-text" id="modal-amount">Untuk dapatkan diskon: {{.amount}}</p>
+            </div>
+            </div>
+            
+            <div class="p-2">
+            <div class="border-diskon border border-secondary rounded shdow-sm bg-body-tertiary" id="border-diskon">
+                <h6 class="card-title fw-bold" id="modal-kode">Gunakan Kode: {{.kode-diskon}}</h6>
+                <p class="card-text" id="modal-amount">Untuk dapatkan diskon: {{.amount}}</p>
+            </div>
+            </div>
+            
+            <div class="p-2">
+            <div class="border-diskon border border-secondary rounded shdow-sm bg-body-tertiary" id="border-diskon">
+                <h6 class="card-title fw-bold" id="modal-kode">Gunakan Kode: {{.kode-diskon}}</h6>
+                <p class="card-text" id="modal-amount">Untuk dapatkan diskon: {{.amount}}</p>
+            </div>
+            </div>
+            
+            <div class="p-2">
+            <div class="border-diskon border border-secondary rounded shdow-sm bg-body-tertiary" id="border-diskon">
+                <h6 class="card-title fw-bold" id="modal-kode">Gunakan Kode: {{.kode-diskon}}</h6>
+                <p class="card-text" id="modal-amount">Untuk dapatkan diskon: {{.amount}}</p>
+            </div>
+            </div>
+            
+            <div class="p-2">
+            <div class="border-diskon border border-secondary rounded shdow-sm bg-body-tertiary" id="border-diskon">
+                <h6 class="card-title fw-bold" id="modal-kode">Gunakan Kode: {{.kode-diskon}}</h6>
+                <p class="card-text" id="modal-amount">Untuk dapatkan diskon: {{.amount}}</p>
+            </div>
+            </div>
+            
+            <!-- {{ .end }} -->
+          </div>
+          
+          <form id="purchaseForm" method="post" action="/penjualan">
+            <input type="hidden" id="modal-id" name="ID" />
+            <input type="hidden" id="modal-name-hidden" name="Nama" />
+            <input type="hidden" id="modal-price-hidden" name="HargaJual" />
+            <input type="hidden" id="modal-stock-hidden" name="Stok" />
+            <div
+              class="modal-footer d-flex justify-content-end align-items-center"
+            >
+              <!-- <div class="d-flex align-items-center"> -->
+                <p class="unselect-btn fw-bold" id="unselect-btn">Reset</p>
+                <button type="submit" class="btn btn-success fw-bold">
+                  Pakai Diskon
+                </button>
+              <!-- </div> -->
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Akhir Modal Diskon -->
+
     <!-- Awal Footer -->
     <footer class="bg-success text-white text-center pt-3 pb-1 mt-auto">
       <p class="footer-text">
@@ -379,6 +482,53 @@
           quantityInput.value = currentValue - 1;
         }
       }
+    </script>
+
+    <!-- script untuk display data card dalam modal "Diskon" -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var buyButtons = document.querySelectorAll(".buy-button");
+
+        buyButtons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            var id = button.getAttribute("data-id");
+            var name = button.getAttribute("data-name");
+            var price = button.getAttribute("data-price");
+            var stock = button.getAttribute("data-stock");
+            var img = button.getAttribute("data-img");
+
+            document.getElementById("modal-id").value = id;
+            document.getElementById("modal-kode-hidden").value = name;
+            document.getElementById("modal-price-hidden").value = price;
+            document.getElementById("modal-stock-hidden").value = stock;
+
+            document.getElementById("modal-img").src = img;
+            document.getElementById("modal-name").textContent = name;
+            document.getElementById("modal-price").textContent = "Rp. " + price;
+            document.getElementById("modal-stock").textContent =
+              "Stok: " + stock;
+          });
+        });
+      });
+
+      // function untuk select dan unselect diskon
+    function selectDiscount() {
+        var borderDiskon = document.getElementById("border-diskon");
+        var unselectBtn = document.getElementById("unselect-btn");
+
+        borderDiskon.addEventListener("click", function() {
+            borderDiskon.classList.add("bg-success-subtle", "border-success");
+            unselectBtn.style.display = "block";
+        });
+
+        unselectBtn.addEventListener("click", function() {
+            borderDiskon.classList.remove("bg-success", "border-success");
+            unselectBtn.style.display = "none";
+        });
+    }
+
+    // Panggil fungsi selectDiscount untuk mengaktifkan event listener
+    selectDiscount();
     </script>
   </body>
 </html>

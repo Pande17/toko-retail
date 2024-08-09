@@ -14,17 +14,17 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func InitEnv(){
-		err := godotenv.Load(".env")
-		if err != nil {
-			logrus.Warn("Cannot load env file, using system env")
-		}
+func InitEnv() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		logrus.Warn("Cannot load env file, using system env")
+	}
 }
 
 func main() {
-	// Init environment 
+	// Init environment
 	InitEnv()
-	
+
 	// initial database
 	repository.OpenDB()
 
@@ -37,8 +37,6 @@ func main() {
 
 	// initial route
 	routes.RouteSetup(app)
-
-	
 
 	// open fiber on http://localhost:3000
 	err := app.Listen(":3000")

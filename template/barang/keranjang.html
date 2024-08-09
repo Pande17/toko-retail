@@ -189,6 +189,20 @@
         width: 100%;
         height: 40px;
       }
+      .border-diskon {
+        padding: 10px;
+        cursor: pointer;
+        display: grid;
+      }
+      .modal-content .modal-body {
+        display: grid;
+        
+      }
+      .unselect-btn{
+        align-items: center;
+        padding: 5px;
+        color: red;
+      }
     </style>
   </head>
   <body>
@@ -210,20 +224,21 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto me-4">
+          <ul class="navbar-nav ms-auto me-4 align-items-center">
             <li class="nav-item">
-              <a class="nav-link fs-5 text-light me-1" href="/#about">About</a>
+              <a class="nav-link fs-5 text-light me-3" href="/#about">About</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5 text-light me-1" href="/keranjang">
-                <i class="bi bi-cart"></i>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="/barang" class="btn btn-success fs-5 me-5">
+              <a href="/barang" class="nav-link text-light fs-5 me-3">
                 <i class="bi bi-buy"></i> Buy Now
               </a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link fs-4 text-light me-5" href="/keranjang">
+                <i class="bi bi-cart"></i>
+              </a>
+            </li>
+            
           </ul>
         </div>
       </div>
@@ -339,10 +354,10 @@
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="exampleModalLabel">Pakai Promo</h1>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Pilih Promo</h1>
             <button
               type="button"
               class="btn-close"
@@ -350,14 +365,47 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">
-            <img id="modal-img" src="" alt="barang" />
-            <div>
-              <h5 class="card-title" id="modal-name"></h5>
-              <h5 class="card-text" id="modal-price"></h5>
-              <p class="card-text" id="modal-stock"></p>
+          
+          <div class="modal-body ">
+            <!-- {{range .data}} -->
+            <div class="p-2">
+            <div class="border-diskon border border-secondary rounded shdow-sm bg-body-tertiary" id="border-diskon">
+                <h6 class="card-title fw-bold" id="modal-kode">Gunakan Kode: {{.kode-diskon}}</h6>
+                <p class="card-text" id="modal-amount">Untuk dapatkan diskon: {{.amount}}</p>
             </div>
+            </div>
+            
+            <div class="p-2">
+            <div class="border-diskon border border-secondary rounded shdow-sm bg-body-tertiary" id="border-diskon">
+                <h6 class="card-title fw-bold" id="modal-kode">Gunakan Kode: {{.kode-diskon}}</h6>
+                <p class="card-text" id="modal-amount">Untuk dapatkan diskon: {{.amount}}</p>
+            </div>
+            </div>
+            
+            <div class="p-2">
+            <div class="border-diskon border border-secondary rounded shdow-sm bg-body-tertiary" id="border-diskon">
+                <h6 class="card-title fw-bold" id="modal-kode">Gunakan Kode: {{.kode-diskon}}</h6>
+                <p class="card-text" id="modal-amount">Untuk dapatkan diskon: {{.amount}}</p>
+            </div>
+            </div>
+            
+            <div class="p-2">
+            <div class="border-diskon border border-secondary rounded shdow-sm bg-body-tertiary" id="border-diskon">
+                <h6 class="card-title fw-bold" id="modal-kode">Gunakan Kode: {{.kode-diskon}}</h6>
+                <p class="card-text" id="modal-amount">Untuk dapatkan diskon: {{.amount}}</p>
+            </div>
+            </div>
+            
+            <div class="p-2">
+            <div class="border-diskon border border-secondary rounded shdow-sm bg-body-tertiary" id="border-diskon">
+                <h6 class="card-title fw-bold" id="modal-kode">Gunakan Kode: {{.kode-diskon}}</h6>
+                <p class="card-text" id="modal-amount">Untuk dapatkan diskon: {{.amount}}</p>
+            </div>
+            </div>
+            
+            <!-- {{ .end }} -->
           </div>
+          
           <form id="purchaseForm" method="post" action="/penjualan">
             <input type="hidden" id="modal-id" name="ID" />
             <input type="hidden" id="modal-name-hidden" name="Nama" />
@@ -366,11 +414,12 @@
             <div
               class="modal-footer d-flex justify-content-end align-items-center"
             >
-              <div class="d-flex justify-content-end pt-3">
-                <button type="submit" class="btn btn-success">
-                  Pakai Promo
+              <!-- <div class="d-flex align-items-center"> -->
+                <p class="unselect-btn fw-bold" id="unselect-btn">Reset</p>
+                <button type="submit" class="btn btn-success fw-bold">
+                  Pakai Diskon
                 </button>
-              </div>
+              <!-- </div> -->
             </div>
           </form>
         </div>
@@ -459,7 +508,7 @@
             var img = button.getAttribute("data-img");
 
             document.getElementById("modal-id").value = id;
-            document.getElementById("modal-name-hidden").value = name;
+            document.getElementById("modal-kode-hidden").value = name;
             document.getElementById("modal-price-hidden").value = price;
             document.getElementById("modal-stock-hidden").value = stock;
 
@@ -472,23 +521,24 @@
         });
       });
 
-      // function untuk "Reset Kode" di modal "Diskon"
-      function checkDiscount() {
-        const discountSelect = document.getElementById("discounts");
-        const resetLink = document.getElementById("resetLink");
-        if (discountSelect.value === "") {
-          resetLink.classList.add("disabled");
-        } else {
-          resetLink.classList.remove("disabled");
-        }
-      }
+      // function untuk select dan unselect diskon
+    function selectDiscount() {
+        var borderDiskon = document.getElementById("border-diskon");
+        var unselectBtn = document.getElementById("unselect-btn");
 
-      function resetDiscount(event) {
-        event.preventDefault();
-        const discountSelect = document.getElementById("discounts");
-        discountSelect.value = "";
-        checkDiscount();
-      }
+        borderDiskon.addEventListener("click", function() {
+            borderDiskon.classList.add("bg-success-subtle", "border-success");
+            unselectBtn.style.display = "block";
+        });
+
+        unselectBtn.addEventListener("click", function() {
+            borderDiskon.classList.remove("bg-success", "border-success");
+            unselectBtn.style.display = "none";
+        });
+    }
+
+    // Panggil fungsi selectDiscount untuk mengaktifkan event listener
+    selectDiscount();
     </script>
   </body>
 </html>
