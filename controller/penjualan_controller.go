@@ -11,14 +11,14 @@ import (
 
 func InsertPenjualanData(c *fiber.Ctx) error {
 	type AddPenjualanReq struct {
-		ID            uint64 `json:"id"`
-		KodeInvoice	  string `json:"kode_invoice"`
-		NamaPembeli   string `json:"nama_pembeli"`
+		ID            uint64  `json:"id"`
+		KodeInvoice   string  `json:"kode_invoice"`
+		NamaPembeli   string  `json:"nama_pembeli"`
 		Subtotal      float64 `json:"subtotal"`
-		KodeDiskon    string `json:"kode_diskon"`
+		KodeDiskon    string  `json:"kode_diskon"`
 		Diskon        float64 `json:"diskon"`
 		Total         float64 `json:"total"`
-		CreatedBy     string `json:"created_by"`
+		CreatedBy     string  `json:"created_by"`
 		ItemPenjualan []struct {
 			Kode   string `json:"kode_barang"`
 			Jumlah uint   `json:"jumlah"`
@@ -33,7 +33,7 @@ func InsertPenjualanData(c *fiber.Ctx) error {
 			})
 	}
 
-	penjualan :=  model.Penjualan{
+	penjualan := model.Penjualan{
 		ID:           req.ID,
 		Kode_invoice: req.KodeInvoice,
 		Nama_pembeli: req.NamaPembeli,
@@ -71,13 +71,14 @@ func GetPenjualan(c *fiber.Ctx) error {
 	}
 
 	if dataPenjualan != nil {
-	logrus.Info("Data Penjualan yang diterima: ", dataPenjualan)
-	logrus.Info("Jumlah item dalam data penjualan: ", len(dataPenjualan))
+		logrus.Info("Data Penjualan yang diterima: ", dataPenjualan)
+		logrus.Info("Jumlah item dalam data penjualan: ", len(dataPenjualan))
 	}
-	return c.Render("admin/penjualan",fiber.Map{
-		"data": dataPenjualan,
-		"title": "Daftar Penjualan",
-	})
+	return c.Status(fiber.StatusOK).JSON(
+		map[string]any{
+			"penjualan": dataPenjualan,
+		},
+	)
 }
 
 func GetPenjualanByID(c *fiber.Ctx) error {
@@ -108,7 +109,7 @@ func GetPenjualanByID(c *fiber.Ctx) error {
 
 	return c.Status(fiber.StatusOK).JSON(
 		map[string]interface{}{
-			"data": dataPenjualan,
+			"data":    dataPenjualan,
 			"message": "success",
 		},
 	)

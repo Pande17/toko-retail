@@ -6,18 +6,17 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-
 func RouteSetup(r *fiber.App) {
-	// r itu untuk 'route' 
+	// r itu untuk 'route'
 
 	// Define routes
 	retailGroup := r.Group("")
-	
+
 	// Define main routes
 	// retailGroup.Get("/",)
 
 	// Define routes barang
-	retailGroup.Get("/barang", controller.GetBarang)
+	retailGroup.Get("/barang", BarangHandler)
 	retailGroup.Get("/keranjang", controller.KeranjangList) // ==== untuk keranjang, jangan lupa buat func
 	retailGroup.Get("/barang/:id", controller.GetBarangByID)
 	retailGroup.Post("/barang", controller.CreateBarang)
@@ -26,10 +25,10 @@ func RouteSetup(r *fiber.App) {
 	retailGroup.Delete("/barang/:id", controller.DeleteBarang)
 
 	// Define routes penjualan
-	retailGroup.Get("/admin/penjualan", controller.GetPenjualan)
+	retailGroup.Get("/admin/penjualan", PenjualanHandler)
 	retailGroup.Get("/admin/penjualan/:id", controller.GetPenjualanByID)
 	retailGroup.Post("/penjualan", controller.InsertPenjualanData)
-	
+
 	// Define routes kode diskon
 	retailGroup.Get("/admin/kode-diskon", controller.GetKodeDiskon)
 	retailGroup.Get("/admin/kode-diskon/:id", controller.GetDiskonByID)

@@ -5,6 +5,9 @@ import (
 	// "log"
 	// "projek/toko-retail/repository/config"
 
+	// "html/template"
+	// "path/filepath"
+	// "projek/toko-retail/controller"
 	repository "projek/toko-retail/repository/config"
 	"projek/toko-retail/routes"
 
@@ -28,14 +31,29 @@ func main() {
 	// initial database
 	repository.OpenDB()
 
+	// app := fiber.New()
+
+	// templates := template.New("").Funcs(template.FuncMap{
+	// 	controller.GetBarang(),
+
+	// })
+
+	// templates = template.Must(templates.ParseGlob(filepath.Join("template", "*.html")))
+
+	// app.Renderer = fiber.HTMLRenderer(templates, nil)
+
+	// setup fiber
 	engine := html.New("./template", ".html") // Path to templates and file extension
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
+
+	// define static file path
 	app.Static("/", "./template/home")
+	// app.Static("/barang", "./template/barang/list.html")
 	app.Static("/src", "./src")
 
-	// initial route
+	// setup route
 	routes.RouteSetup(app)
 
 	// open fiber on http://localhost:3000
